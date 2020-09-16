@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+  <context id="context1" targetRuntime="MyBatis3">
+    <jdbcConnection connectionURL="jdbc:postgresql://localhost:5432/farmaciadb" driverClass="org.postgresql.Driver" password="123456" userId="postgres" />
+    <javaModelGenerator targetPackage="org.abc.domain" targetProject="farmacia">
+    	<property name="enableSubPackages" value="false"/>
+        <property name="trimStrings" value="true"/>
+    </javaModelGenerator>
+    <sqlMapGenerator targetPackage="org.abc.mapper" targetProject="farmacia">
+    	<!-- <property name="enableSubPackages" value="true"/> -->
+    </sqlMapGenerator>
+    <javaClientGenerator targetPackage="org.abc.mapper" targetProject="farmacia" type="XMLMAPPER" >
+    	<!-- <property name="enableSubPackages" value="true"/> -->
+    </javaClientGenerator>
+    
+    <table schema="public" tableName="laboratorio">
+      <!-- <columnOverride column="???" property="???" />
+      -->
+    </table>
+  </context>
+</generatorConfiguration>

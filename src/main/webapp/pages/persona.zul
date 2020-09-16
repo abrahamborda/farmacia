@@ -1,0 +1,80 @@
+<?page title="Persona Maintenance" ?>
+<?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver"?>
+<zk>
+<style>
+    .z-textbox{
+    	text-transform:uppercase;
+    }
+</style>
+<window id="personasPage" border="none" width="100%" height="" apply="org.zkoss.bind.BindComposer"
+	viewModel="@id('vm') @init('org.abc.viewmodel.PersonaVM')">
+	<panel width="99%" border="normal">
+		<caption label="Personas (click para editar/ver)" style="text-align: left;">
+			 <button label="Registrar Nueva Persona" onClick="@command('newPersona')" style="font-size:12px;" />
+		</caption>
+		<panelchildren>
+			<vlayout style="margin:10px;">
+				<listbox id="personasList" model="@load(vm.personas)"
+						 selectedItem="@bind(vm.selectedPersona)"
+						 width="99%" height="200px" vflex="min" hflex="min" mold="paging" pageSize="5">
+ 					<listhead>
+						<listheader label="id" align="left"   width="80px" sort="auto"/>
+						<listheader label="Nombres" align="left"   width="300px" sort="auto"/>
+						<listheader label="A. Paterno" align="left" width="200px" sort="auto"/>
+						<listheader label="A. Materno" align="left"  width="200px"/>
+						<listheader label="Telefono" align="left"  width="200px"/>
+						<listheader label="Direccion" align="left"  width="200px"/>
+					</listhead>
+					<template name="model" var="item">
+						<listitem onClick="@command('editPersona')">
+							<listcell label="@load(item.idPersona)"/>
+							<listcell label="@load(item.nombre)"/>
+							<listcell label="@load(item.ap)"/>
+							<listcell label="@load(item.am)"/>
+							<listcell label="@load(item.telefono)"/>
+							<listcell label="@load(item.direccion)"/>
+						</listitem>
+					</template>
+				</listbox>
+			</vlayout>
+		</panelchildren>
+	</panel>
+	<panel width="99%" border="normal" title="Persona" visible="@load(vm.selectedPersonaCopy ne null)">
+		<panelchildren>
+			<vlayout style="margin:10px;">
+				<groupbox validationMessages="@id('vmsgs')">
+					<vlayout id="personaForm" style="margin:5px;">
+						<hlayout sclass="z-valign-middle">
+							<label value="Id:"/>
+							<label value="@bind(vm.selectedPersonaCopy.idPersona) @save(vm.selectedPersonaCopy.idPersona, before='submit')"
+									style="width:200px;margin-right:20px;"/>
+							<label value="Nombres:"/>
+							<textbox value="@bind(vm.selectedPersonaCopy.nombre) @save(vm.selectedPersonaCopy.nombre, before='submit')"
+									 constraint="no empty" style="width:300px;margin-right:20px;"/>
+							<label value="A. Paterno:"/>
+							<textbox value="@bind(vm.selectedPersonaCopy.ap) @save(vm.selectedPersonaCopy.ap, before='submit')"
+									 constraint="no empty,no negative" style="width:200px"/>
+							<label value="A. Materno:"/>
+							<textbox value="@bind(vm.selectedPersonaCopy.am) @save(vm.selectedPersonaCopy.am, before='submit')"
+									 constraint="" style="width:200px"/>
+						</hlayout>
+						<hlayout sclass="z-valign-middle">
+							<label value="Telefono:"/>
+							<textbox value="@bind(vm.selectedPersonaCopy.telefono) @save(vm.selectedPersonaCopy.telefono, before='submit')"
+									 constraint="" style="width:200px;margin-right:20px;"/>
+							<label value="Direccion:"/>
+							<textbox value="@bind(vm.selectedPersonaCopy.direccion) @save(vm.selectedPersonaCopy.direccion, before='submit')"
+									 constraint="" style="width:400px;margin-right:20px;"/>
+						</hlayout>
+						<hlayout style="margin-top:5px;">
+							<button label="Guardar" onClick="@command('submit')" />
+							<button label="Eliminar" onClick="@command('delete')" style="margin-left:5px;" visible="@load(vm.selectedPersonaCopy.idPersona ne null)"/>
+							<button label="Cancelar" onClick="@command('cancel')" />
+						</hlayout>
+					</vlayout>
+				</groupbox>
+			</vlayout>
+		</panelchildren>
+	</panel>
+</window>
+</zk>

@@ -1,0 +1,53 @@
+<?page title="Sistema Control Ventas Farmacia" contentType="text/html;charset=UTF-8"?>
+<!-- <?init class="org.abc.services.AuthenticationInit"?> -->
+<zk>
+	<borderlayout apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vmPrin') @init('org.abc.viewmodel.PrincipalVM')">
+		<north>
+			<div style="background-image:url('/mybatis-spring-zk/images/banner.jpg');"
+				height="100px">
+				<hbox hflex="1" vflex="1" pack="end" align="end">
+					<groupbox id="gb2" mold="3d" width="300px"
+						visible="@load(vmPrin.usuario ne null)">
+						<!-- <caption image="" label="Usuario" /> -->
+						<vlayout>
+							<label
+								value="@load(vmPrin.usuario.persona.nomCompleto)" />
+							<button label="Cerrar Sesion"
+								onClick="@command('logout')">
+							</button>
+						</vlayout>
+					</groupbox>
+				</hbox>
+			</div>
+		</north>
+		<west title="Menú" collapsible="true" width="200px"
+			visible="@load(vmPrin.usuario ne null)">
+			<menubar id="menubar" orient="vertical" autodrop="true"
+				width="" height=""
+				children="@load(vmPrin.listMenu) @template('menuitem')">
+				<template name="menuitem" var="item">
+					<menuitem label="@load(item.titulo)"
+						onClick="@command('cargar',target=item.url)" />
+				</template>
+			</menubar>
+		</west>
+		<center autoscroll="true">
+			<include id="idInclude"
+				currentPage="@load(vmPrin.currentPage)"
+				src="@load(vmPrin.currentPage)">
+			</include>
+		</center>
+		<south sclass="footer" height="60px">
+			<vbox align="center" pack="center" width="100%"
+				sclass="footer-box">
+				<label sclass="footer_text">
+					Copyright © 2005-2014
+				</label>
+				<label sclass="footer_text">
+					Potix Corporation All rights reserved.
+				</label>
+			</vbox>
+		</south>
+	</borderlayout>
+</zk>

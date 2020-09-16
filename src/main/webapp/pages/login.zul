@@ -1,0 +1,19 @@
+<?page title="Login" contentType="text/html;charset=UTF-8"?>
+<zk>
+	<window title="" border="none" apply="org.zkoss.bind.BindComposer"
+	viewModel="@id('vm') @init('org.abc.viewmodel.LoginVM')">
+		<div align="center" >
+		<groupbox id="gb2" mold="3d" width="300px">
+			<caption image="" label="Inicio de sesión de usuario" />
+			<vlayout>
+				<label value="Usuario" />
+				<textbox id="login" value="@bind(vm.usuario.login) @save(vm.usuario.login, before='submit')"></textbox>
+				<label value="Contraseña" />
+				<textbox id="clave" type="password" value="@bind(vm.usuario.clave) @save(vm.usuario.clave, before='submit')"></textbox>
+				<button label="Iniciar Sesión" onClick="@command('submit')"></button>
+				<label value="@bind(vm.mensaje)" />
+			</vlayout>
+		</groupbox>
+		</div>
+	</window>
+</zk>

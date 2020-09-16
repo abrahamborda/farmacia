@@ -1,0 +1,63 @@
+<?page title="Laboratorio Maintenance" ?>
+<?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver"?>
+<zk>
+<style>
+    .z-textbox{
+    	text-transform:uppercase;
+    }
+</style>
+<window id="laboratoriosPage" border="none" width="100%" height="" apply="org.zkoss.bind.BindComposer"
+	viewModel="@id('vm') @init('org.abc.viewmodel.LaboratorioVM')">
+	<panel width="99%" border="normal">
+		<caption label="Laboratorios (click para editar/ver)" style="text-align: left;">
+			 <button label="Registrar Nueva Laboratorio" onClick="@command('newLaboratorio')" style="font-size:12px;" />
+		</caption>
+		<panelchildren>
+			<vlayout style="margin:10px;">
+				<listbox id="laboratoriosList" model="@load(vm.laboratorios)"
+						 selectedItem="@bind(vm.selectedLaboratorio)"
+						 width="99%" height="200px" vflex="min" hflex="min" mold="paging" pageSize="5">
+ 					<listhead>
+						<listheader label="id" align="left"   width="80px" sort="auto"/>
+						<listheader label="Laboratorio" align="left"   width="300px" sort="auto"/>
+						<listheader label="Telefono" align="left"  width="200px"/>
+					</listhead>
+					<template name="model" var="item">
+						<listitem onClick="@command('editLaboratorio')">
+							<listcell label="@load(item.idLaboratorio)"/>
+							<listcell label="@load(item.nombre)"/>
+							<listcell label="@load(item.telefono)"/>
+						</listitem>
+					</template>
+				</listbox>
+			</vlayout>
+		</panelchildren>
+	</panel>
+	<panel width="99%" border="normal" title="Laboratorio" visible="@load(vm.selectedLaboratorioCopy ne null)">
+		<panelchildren>
+			<vlayout style="margin:10px;">
+				<groupbox validationMessages="@id('vmsgs')">
+					<vlayout id="laboratorioForm" style="margin:5px;">
+						<hlayout sclass="z-valign-middle">
+							<label value="Id:"/>
+							<label value="@bind(vm.selectedLaboratorioCopy.idLaboratorio) @save(vm.selectedLaboratorioCopy.idLaboratorio, before='submit')"
+									style="width:200px;margin-right:20px;"/>
+							<label value="Nombres:"/>
+							<textbox value="@bind(vm.selectedLaboratorioCopy.nombre) @save(vm.selectedLaboratorioCopy.nombre, before='submit')"
+									 constraint="no empty" style="width:300px;margin-right:20px;"/>
+							<label value="Telefono:"/>
+							<textbox value="@bind(vm.selectedLaboratorioCopy.telefono) @save(vm.selectedLaboratorioCopy.telefono, before='submit')"
+									 constraint="" style="width:200px;margin-right:20px;"/>
+						</hlayout>
+						<hlayout style="margin-top:5px;">
+							<button label="Guardar" onClick="@command('submit')" />
+							<button label="Eliminar" onClick="@command('delete')" style="margin-left:5px;" visible="@load(vm.selectedLaboratorioCopy.idLaboratorio ne null)"/>
+							<button label="Cancelar" onClick="@command('cancel')" />
+						</hlayout>
+					</vlayout>
+				</groupbox>
+			</vlayout>
+		</panelchildren>
+	</panel>
+</window>
+</zk>
