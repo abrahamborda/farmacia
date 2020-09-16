@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.abc.domain.Laboratorio;
 
-import net.learntechnology.empmaint.domain.Employee;
+//import net.learntechnology.empmaint.domain.Employee;
 
 public interface LaboratorioService {
 	List<Laboratorio> getTodosLaboratorios();
