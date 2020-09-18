@@ -9,3 +9,4 @@ target/
 .settings
 .classpath
 /catalina.base_IS_UNDEFINED
+/src/
