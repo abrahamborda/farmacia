@@ -1,0 +1,50 @@
+<?page title="Persona Maintenance" ?>
+<?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver"?>
+<zk>
+	<style>.z-textbox{ text-transform:uppercase; }</style>
+	<window id="personasPage" border="none" width="100%" height=""
+		apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm') @init('org.abc.viewmodel.BuscarPersonaVM')">
+		<groupbox validationMessages="@id('vmsgs')">
+				<hlayout id="personaForm" style="margin:5px;">
+					<label value="Nombres:" />
+					<textbox id="txtNombre"
+						value=""
+						constraint="no empty" style="width:300px;margin-right:20px;" />
+					<button label="Buscar"
+						onClick="@command('buscar',nombres=txtNombre.value)" style="font-size:12px;" />
+				</hlayout>
+			</groupbox>
+		<panel width="99%" border="normal">
+			<caption label="Personas"
+				style="text-align: left;">
+			</caption>
+			<panelchildren>
+				<vlayout style="margin:10px;">
+					<listbox id="personasList"
+						model="@load(vm.personas)"
+						selectedItem="@bind(vm.selectedPersona)" width="99%"
+						height="200px" vflex="min" hflex="min" mold="paging"
+						pageSize="5">
+						<listhead>
+							<listheader label="Nombres" align="left"
+								width="300px" sort="auto" />
+							<listheader label="Telefono" align="left"
+								width="200px" />
+							<listheader label="Direccion" align="left"
+								width="200px" />
+						</listhead>
+						<template name="model" var="item">
+							<listitem
+								onClick="@command('selectedPersona')">
+								<listcell label="@load(item.nomCompleto)" />
+								<listcell label="@load(item.telefono)" />
+								<listcell label="@load(item.direccion)" />
+							</listitem>
+						</template>
+					</listbox>
+				</vlayout>
+			</panelchildren>
+		</panel>
+	</window>
+</zk>
