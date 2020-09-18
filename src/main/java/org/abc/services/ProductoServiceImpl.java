@@ -40,6 +40,6 @@ public class ProductoServiceImpl implements ProductoService {
 
 	@Override
 	public void insertarProducto(Producto prd) {
-		productoMapper.insert(prd);
+		productoMapper.insertSelective(prd);
 	}
 }

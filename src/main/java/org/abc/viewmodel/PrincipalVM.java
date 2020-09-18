@@ -49,7 +49,8 @@ public class PrincipalVM {
 		listMenu = new ArrayList<Menu>();
 		addPage("Personas", "/persona.zul");
 		addPage("Laboratorios", "/laboratorio.zul");
-		addPage("Orders", "/index2.zul");
+		addPage("Buscar Personas", "/buscar_persona.zul");
+		addPage("Productos", "/producto.zul");
 		addPage("Fan Service", "/index2.zul");
 	}
 

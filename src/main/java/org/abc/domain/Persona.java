@@ -162,7 +162,7 @@ public class Persona implements Comparable<Object>{
      * @mbg.generated Mon Sep 14 10:24:56 BOT 2020
      */
     public void setNombre(String nombre) {
-        this.nombre = nombre == null ? null : nombre.trim();
+        this.nombre = nombre == null ? null : nombre.trim().toUpperCase();
     }
 
     /**
@@ -186,7 +186,7 @@ public class Persona implements Comparable<Object>{
      * @mbg.generated Mon Sep 14 10:24:56 BOT 2020
      */
     public void setAp(String ap) {
-        this.ap = ap == null ? null : ap.trim();
+        this.ap = ap == null ? null : ap.trim().toUpperCase();
     }
 
     /**
@@ -210,7 +210,7 @@ public class Persona implements Comparable<Object>{
      * @mbg.generated Mon Sep 14 10:24:56 BOT 2020
      */
     public void setAm(String am) {
-        this.am = am == null ? null : am.trim();
+        this.am = am == null ? null : am.trim().toUpperCase();
     }
 
     /**

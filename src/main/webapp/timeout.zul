@@ -3,5 +3,6 @@
 The page or component you request is no longer available.
 This is normally caused by timeout, opening too many Web pages, or rebooting
 the server.
+	<button label="redirect" onClick='execution.sendRedirect("http://localhost:8080/farmacia/")'/>
 	</vbox>
 </window>

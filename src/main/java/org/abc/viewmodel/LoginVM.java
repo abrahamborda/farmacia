@@ -40,8 +40,8 @@ public class LoginVM {
 	@Init
 	public void init() {
 		usuario = new Usuario();
-		usuario.setLogin("abc");
-		usuario.setClave("abc");
+		usuario.setLogin("aaa");
+		usuario.setClave("aaa");
 	}
 
 	@NotifyChange({ "usuario", "mensaje" })

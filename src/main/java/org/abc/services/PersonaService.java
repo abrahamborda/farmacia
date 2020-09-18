@@ -4,10 +4,9 @@ import java.util.List;
 
 import org.abc.domain.Persona;
 
-import net.learntechnology.empmaint.domain.Employee;
-
 public interface PersonaService {
 	List<Persona> getTodosPersonas();
+	List<Persona> getBuscarPersonasPorNombre(String nombre);
     void actualizarPersona(Persona prd);
     void eliminarPersona(Integer id);
     public Persona getPersonaId(Integer id);

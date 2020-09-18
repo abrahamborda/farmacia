@@ -24,6 +24,14 @@ public class PersonaServiceImpl implements PersonaService {
 		example.setOrderByClause("ap,am,nombre");
 		return personaMapper.selectByExample(example);
 	}
+	
+	@Override
+	public List<Persona> getBuscarPersonasPorNombre(String nombre) {
+		PersonaExample example = new PersonaExample();
+		example.createCriteria().andNombreLike("%"+(nombre.replaceAll("\\s","%")).toUpperCase()+"%").andEstadoEqualTo(Parametros.ESTADO_ACTIVO);
+		example.setOrderByClause("nombre");
+		return personaMapper.selectByExample(example);
+	}
 
 	@Override
 	public void actualizarPersona(Persona prd) {
