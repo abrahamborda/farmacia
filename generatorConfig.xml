@@ -14,7 +14,7 @@
     	<!-- <property name="enableSubPackages" value="true"/> -->
     </javaClientGenerator>
     
-    <table schema="public" tableName="laboratorio">
+    <table schema="public" tableName="producto">
       <!-- <columnOverride column="???" property="???" />
       -->
     </table>
