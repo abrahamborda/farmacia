@@ -59,7 +59,7 @@
 				</vlayout>
 			</panelchildren>
 		</panel>
-		<panel width="99%" border="normal" title="Producto"
+		<panel width="99%" border="normal" title="Editar Producto"
 			visible="@load(vm.selectedProductoCopy ne null)">
 			<panelchildren>
 				<vlayout style="margin:10px;">
@@ -72,31 +72,25 @@
 									value="@bind(vm.selectedProductoCopy.idProducto) @save(vm.selectedProductoCopy.idProducto, before='submit')"
 									style="width:200px;margin-right:20px;" />
 								<label value="Categoria:" />
-								<listbox model="@load(vm.categorias)"
+								<combobox model="@load(vm.categorias)"
 									selectedItem="@bind(vm.selectedProductoCopy.categoria)"
-									width="200px" mold="select" rows="1" id="categoriaList">
+									width="200px" id="categoriaList" readonly="true">
 									<template name="model"
 										var="itemCat">
-										<listitem>
-											<listcell
-												label="@load(itemCat.nombre)" />
-										</listitem>
+										<comboitem
+											label="@load(itemCat.nombre)" />
 									</template>
-								</listbox>
+								</combobox>
 								<label value="Laboratorio:" />
-								<label
-									value="@bind(vm.selectedProductoCopy.laboratorio.idLaboratorio)" />
-								<listbox model="@load(vm.laboratorios)"
+								<combobox model="@load(vm.laboratorios)"
 									selectedItem="@bind(vm.selectedProductoCopy.laboratorio)"
-									width="200px" mold="select" rows="1" id="laboratorioList">
+									width="200px" id="laboratorioList" readonly="true">
 									<template name="model"
 										var="itemLab">
-										<listitem>
-											<listcell
-												label="@load(itemLab.nombre)" />
-										</listitem>
+										<comboitem
+											label="@load(itemLab.nombre)" />
 									</template>
-								</listbox>
+								</combobox>
 								<label value="principio:" />
 								<textbox
 									value="@bind(vm.selectedProductoCopy.principio) @save(vm.selectedProductoCopy.principio, before='submit')"
@@ -104,20 +98,26 @@
 							</hlayout>
 							<hlayout sclass="z-valign-middle">
 								<label value="presentacion:" />
-								<combobox id="cmbPresentacion" width="150px"
-									model="@load(vm.presentaciones)" selectedItem="@bind(vm.selectedProductoCopy.presentacion)" readonly="true">
+								<combobox id="cmbPresentacion"
+									width="150px" model="@load(vm.presentaciones)"
+									selectedItem="@bind(vm.selectedProductoCopy.presentacion)"
+									readonly="true">
 									<template name="model">
-										<comboitem label="@load(each)" value="@load(each)"/>
+										<comboitem label="@load(each)"
+											value="@load(each)" />
 									</template>
 								</combobox>
 								<!-- <textbox
 									value="@bind(vm.selectedProductoCopy.presentacion) @save(vm.selectedProductoCopy.presentacion, before='submit')"
 									constraint="no empty,no negative" style="width:200px" /> -->
 								<label value="unidadMedida:" />
-								<combobox id="cmbUnidadMedida" width="150px"
-									model="@load(vm.unidadesMedidas)" selectedItem="@bind(vm.selectedProductoCopy.unidadMedida)" readonly="true">
+								<combobox id="cmbUnidadMedida"
+									width="150px" model="@load(vm.unidadesMedidas)"
+									selectedItem="@bind(vm.selectedProductoCopy.unidadMedida)"
+									readonly="true">
 									<template name="model">
-										<comboitem label="@load(each)" value="@load(each)"/>
+										<comboitem label="@load(each)"
+											value="@load(each)" />
 									</template>
 								</combobox>
 								<!-- <textbox
@@ -126,7 +126,8 @@
 							</hlayout>
 							<hlayout sclass="z-valign-middle">
 								<label value="cantidad:" />
-								<intbox value="@bind(vm.selectedProductoCopy.cantidad) @save(vm.selectedProductoCopy.cantidad, before='submit')"
+								<intbox
+									value="@bind(vm.selectedProductoCopy.cantidad) @save(vm.selectedProductoCopy.cantidad, before='submit')"
 									constraint="no empty,no negative"
 									style="width:200px;margin-right:20px;" />
 								<label value="Descripcion:" />

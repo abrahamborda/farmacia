@@ -23,6 +23,7 @@ public class BuscarPersonaVM {
 
 	List<Persona> personas;
 	Persona selectedPersona;
+	String nombres;
 	private AuthenticationService authenticationService=new AuthenticationServiceImpl();
 
 	@WireVariable
@@ -30,12 +31,13 @@ public class BuscarPersonaVM {
 
 	@Init
 	public void init() {
-		
+		nombres="";
 	}
 
 	@NotifyChange({"personas","selectedPersona"})
 	@Command
-	public void buscar(@BindingParam("nombres") String nombres) {
+//	public void buscar(@BindingParam("nombres") String nombres) {
+	public void buscar() {
 		System.out.println("============="+nombres);
 		populatePersonas(nombres);
 		selectedPersona=null;
@@ -66,4 +68,12 @@ public class BuscarPersonaVM {
 		this.selectedPersona = selectedPersona;
 	}
 
+	public String getNombres() {
+		return nombres;
+	}
+
+	public void setNombres(String nombres) {
+		this.nombres = nombres;
+	}
+	
 }
