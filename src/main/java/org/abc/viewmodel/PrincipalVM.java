@@ -67,12 +67,8 @@ public class PrincipalVM {
 
 	@Command
 	public void logout() {
-		Map<String, Object> parametros=new HashMap<String, Object>();
-		parametros.put("idProducto", 4);
-		Window window = (Window)Executions.createComponents(Parametros.URL_ZUL+"/buscar_producto.zul", null, parametros);
-	    window.doModal();
-//		authenticationService.logout();
-//		Executions.sendRedirect(Parametros.URL_INDEX);
+		authenticationService.logout();
+		Executions.sendRedirect(Parametros.URL_INDEX);
 	}
 
 	public Usuario getUsuario() {
