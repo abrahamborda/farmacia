@@ -9,6 +9,7 @@ import org.abc.services.AuthenticationService;
 import org.abc.services.AuthenticationServiceImpl;
 import org.abc.services.PersonaService;
 import org.abc.services.UsuarioService;
+import org.abc.utils.Parametros;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.zkoss.zk.ui.Component;
@@ -59,7 +60,7 @@ public class LoginVM {
 		authenticationService.setUserCredential(usuarioLogin);
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("persona", persona);
-		Executions.sendRedirect("/");
+		Executions.sendRedirect(Parametros.URL_INDEX);
 //		PrincipalVM principal = (PrincipalVM) Executions.createComponents("/pages/principal.zul", null, params);
 //		principal.doModal();
 	}

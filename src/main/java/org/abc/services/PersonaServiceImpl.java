@@ -31,7 +31,7 @@ public class PersonaServiceImpl implements PersonaService {
 		if(nombre.trim().equals(""))
 			return new ArrayList<Persona>();
 		PersonaExample example = new PersonaExample();
-		example.createCriteria().andNombreLike("%"+(nombre.replaceAll("\\s","%")).toUpperCase()+"%").andEstadoEqualTo(Parametros.ESTADO_ACTIVO);
+		example.createCriteria().andNombreLike(Parametros.getStringLike(nombre)).andEstadoEqualTo(Parametros.ESTADO_ACTIVO);
 		example.setOrderByClause("nombre");
 		return personaMapper.selectByExample(example);
 	}

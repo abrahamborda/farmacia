@@ -1,10 +1,10 @@
 <?page title="Persona Maintenance" ?>
 <?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver"?>
 <zk>
-	<style>.z-textbox{ text-transform:uppercase; }</style>
 	<window id="personasPage" border="none" width="100%" height=""
 		apply="org.zkoss.bind.BindComposer"
-		viewModel="@id('vm') @init('org.abc.viewmodel.BuscarPersonaVM')">
+		viewModel="@id('vm') @init('org.abc.viewmodel.BuscarPersonaVM')"
+		mode="modal" closable="true" title="dfghj">
 		<!-- 
 		<groupbox validationMessages="@id('vmsgs')">
 			<hlayout id="personaForm" style="margin:5px;">
