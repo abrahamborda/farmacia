@@ -4,7 +4,11 @@
 
 -- Dumped from database version 9.4.20
 -- Dumped by pg_dump version 9.4.20
+<<<<<<< HEAD
 -- Started on 2020-09-19 21:26:57
+=======
+-- Started on 2020-09-19 13:27:48
+>>>>>>> branch 'master' of https://github.com/abrahamborda/farmacia.git
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -23,7 +27,11 @@ CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 
 
 --
+<<<<<<< HEAD
 -- TOC entry 2131 (class 0 OID 0)
+=======
+-- TOC entry 2126 (class 0 OID 0)
+>>>>>>> branch 'master' of https://github.com/abrahamborda/farmacia.git
 -- Dependencies: 1
 -- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
 --
@@ -67,7 +75,11 @@ CREATE SEQUENCE public.categoria_id_categoria_seq
 ALTER TABLE public.categoria_id_categoria_seq OWNER TO postgres;
 
 --
+<<<<<<< HEAD
 -- TOC entry 2132 (class 0 OID 0)
+=======
+-- TOC entry 2127 (class 0 OID 0)
+>>>>>>> branch 'master' of https://github.com/abrahamborda/farmacia.git
 -- Dependencies: 177
 -- Name: categoria_id_categoria_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -111,7 +123,11 @@ CREATE SEQUENCE public.compra_id_compra_seq
 ALTER TABLE public.compra_id_compra_seq OWNER TO postgres;
 
 --
+<<<<<<< HEAD
 -- TOC entry 2133 (class 0 OID 0)
+=======
+-- TOC entry 2128 (class 0 OID 0)
+>>>>>>> branch 'master' of https://github.com/abrahamborda/farmacia.git
 -- Dependencies: 183
 -- Name: compra_id_compra_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -205,7 +221,11 @@ CREATE SEQUENCE public.detalle_compra_id_detalle_compra_seq
 ALTER TABLE public.detalle_compra_id_detalle_compra_seq OWNER TO postgres;
 
 --
+<<<<<<< HEAD
 -- TOC entry 2134 (class 0 OID 0)
+=======
+-- TOC entry 2129 (class 0 OID 0)
+>>>>>>> branch 'master' of https://github.com/abrahamborda/farmacia.git
 -- Dependencies: 185
 -- Name: detalle_compra_id_detalle_compra_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -214,6 +234,27 @@ ALTER SEQUENCE public.detalle_compra_id_detalle_compra_seq OWNED BY public.detal
 
 
 --
+<<<<<<< HEAD
+=======
+-- TOC entry 190 (class 1259 OID 522731127)
+-- Name: detalle_venta; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE public.detalle_venta (
+    id_detalle_venta integer NOT NULL,
+    id_venta integer NOT NULL,
+    id_producto integer NOT NULL,
+    cantidad integer NOT NULL,
+    precio_unitario numeric(10,2) NOT NULL,
+    importe numeric(10,2) NOT NULL,
+    id_detalle_compra integer
+);
+
+
+ALTER TABLE public.detalle_venta OWNER TO postgres;
+
+--
+>>>>>>> branch 'master' of https://github.com/abrahamborda/farmacia.git
 -- TOC entry 189 (class 1259 OID 522731125)
 -- Name: detalle_venta_id_detalle_venta_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
@@ -229,7 +270,11 @@ CREATE SEQUENCE public.detalle_venta_id_detalle_venta_seq
 ALTER TABLE public.detalle_venta_id_detalle_venta_seq OWNER TO postgres;
 
 --
+<<<<<<< HEAD
 -- TOC entry 2135 (class 0 OID 0)
+=======
+-- TOC entry 2130 (class 0 OID 0)
+>>>>>>> branch 'master' of https://github.com/abrahamborda/farmacia.git
 -- Dependencies: 189
 -- Name: detalle_venta_id_detalle_venta_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -271,7 +316,11 @@ CREATE SEQUENCE public.laboratorio_id_laboratorio_seq
 ALTER TABLE public.laboratorio_id_laboratorio_seq OWNER TO postgres;
 
 --
+<<<<<<< HEAD
 -- TOC entry 2136 (class 0 OID 0)
+=======
+-- TOC entry 2131 (class 0 OID 0)
+>>>>>>> branch 'master' of https://github.com/abrahamborda/farmacia.git
 -- Dependencies: 179
 -- Name: laboratorio_id_laboratorio_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -316,7 +365,11 @@ CREATE SEQUENCE public.persona_id_persona_seq
 ALTER TABLE public.persona_id_persona_seq OWNER TO postgres;
 
 --
+<<<<<<< HEAD
 -- TOC entry 2137 (class 0 OID 0)
+=======
+-- TOC entry 2132 (class 0 OID 0)
+>>>>>>> branch 'master' of https://github.com/abrahamborda/farmacia.git
 -- Dependencies: 175
 -- Name: persona_id_persona_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -363,7 +416,11 @@ CREATE SEQUENCE public.producto_id_producto_seq
 ALTER TABLE public.producto_id_producto_seq OWNER TO postgres;
 
 --
+<<<<<<< HEAD
 -- TOC entry 2138 (class 0 OID 0)
+=======
+-- TOC entry 2133 (class 0 OID 0)
+>>>>>>> branch 'master' of https://github.com/abrahamborda/farmacia.git
 -- Dependencies: 181
 -- Name: producto_id_producto_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -405,7 +462,11 @@ CREATE SEQUENCE public.usuario_id_usuario_seq
 ALTER TABLE public.usuario_id_usuario_seq OWNER TO postgres;
 
 --
+<<<<<<< HEAD
 -- TOC entry 2139 (class 0 OID 0)
+=======
+-- TOC entry 2134 (class 0 OID 0)
+>>>>>>> branch 'master' of https://github.com/abrahamborda/farmacia.git
 -- Dependencies: 173
 -- Name: usuario_id_usuario_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -451,7 +512,11 @@ CREATE SEQUENCE public.venta_id_venta_seq
 ALTER TABLE public.venta_id_venta_seq OWNER TO postgres;
 
 --
+<<<<<<< HEAD
 -- TOC entry 2140 (class 0 OID 0)
+=======
+-- TOC entry 2135 (class 0 OID 0)
+>>>>>>> branch 'master' of https://github.com/abrahamborda/farmacia.git
 -- Dependencies: 187
 -- Name: venta_id_venta_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -532,7 +597,11 @@ ALTER TABLE ONLY public.venta ALTER COLUMN id_venta SET DEFAULT nextval('public.
 
 
 --
+<<<<<<< HEAD
 -- TOC entry 2110 (class 0 OID 522731009)
+=======
+-- TOC entry 2105 (class 0 OID 522731009)
+>>>>>>> branch 'master' of https://github.com/abrahamborda/farmacia.git
 -- Dependencies: 178
 -- Data for Name: categoria; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -541,6 +610,7 @@ COPY public.categoria (id_categoria, nombre, estado, fecha_reg, fecha_mod) FROM 
 1	CAT 	A	2020-09-17 20:10:41.053-04	\N
 2	FFFFFFFF	A	2020-09-17 20:10:48.939-04	\N
 3	TTTTTTTTTT	A	2020-09-17 20:10:50.99-04	\N
+<<<<<<< HEAD
 \.
 
 
@@ -563,35 +633,108 @@ COPY public.compra (id_compra, id_persona, id_usuario, total, estado, fecha_reg,
 3	2	1	77.00	A	2020-09-18 22:14:30.722-04	2020-09-19 13:06:40.033-04	2020-09-10	19:00:00-04
 1	1	1	135.00	A	2020-09-18 14:53:40.367-04	2020-09-19 13:18:25.276-04	2020-09-18	19:15:00-04
 5	1	1	0.00	A	2020-09-19 21:19:56.701-04	\N	2020-09-19	\N
+=======
+>>>>>>> branch 'master' of https://github.com/abrahamborda/farmacia.git
 \.
 
 
 --
+<<<<<<< HEAD
 -- TOC entry 2142 (class 0 OID 0)
 -- Dependencies: 183
 -- Name: compra_id_compra_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+=======
+-- TOC entry 2136 (class 0 OID 0)
+-- Dependencies: 177
+-- Name: categoria_id_categoria_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+>>>>>>> branch 'master' of https://github.com/abrahamborda/farmacia.git
 --
 
+<<<<<<< HEAD
 SELECT pg_catalog.setval('public.compra_id_compra_seq', 5, true);
+=======
+SELECT pg_catalog.setval('public.categoria_id_categoria_seq', 3, true);
+>>>>>>> branch 'master' of https://github.com/abrahamborda/farmacia.git
 
 
 --
+<<<<<<< HEAD
 -- TOC entry 2118 (class 0 OID 522731089)
 -- Dependencies: 186
 -- Data for Name: detalle_compra; Type: TABLE DATA; Schema: public; Owner: postgres
+=======
+-- TOC entry 2111 (class 0 OID 522731069)
+-- Dependencies: 184
+-- Data for Name: compra; Type: TABLE DATA; Schema: public; Owner: postgres
+>>>>>>> branch 'master' of https://github.com/abrahamborda/farmacia.git
 --
 
+<<<<<<< HEAD
 COPY public.detalle_compra (id_detalle_compra, id_compra, id_producto, cantidad, precio_unitario, importe, nro_lote, fec_vencimiento, precio_venta) FROM stdin;
 12	1	5	1	4.00	4.00	234	2020-09-18	4.00
 9	3	5	1	33.00	33.00	234	2020-09-02	3.00
 11	3	5	1	44.00	44.00	2343	2020-09-09	2.40
 10	1	4	2	44.00	88.00	123456	2020-10-28	4.50
 7	1	5	1	43.00	43.00	45	2020-08-31	3.00
+=======
+COPY public.compra (id_compra, id_persona, id_usuario, total, estado, fecha_reg, fecha_mod, fecha, hora) FROM stdin;
+3	2	1	77.00	A	2020-09-18 22:14:30.722-04	2020-09-19 13:06:40.033-04	2020-09-10	19:00:00-04
+1	1	1	135.00	A	2020-09-18 14:53:40.367-04	2020-09-19 13:18:25.276-04	2020-09-18	19:15:00-04
+>>>>>>> branch 'master' of https://github.com/abrahamborda/farmacia.git
 \.
 
 
 --
+<<<<<<< HEAD
 -- TOC entry 2143 (class 0 OID 0)
+-- Dependencies: 185
+-- Name: detalle_compra_id_detalle_compra_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+=======
+-- TOC entry 2137 (class 0 OID 0)
+-- Dependencies: 183
+-- Name: compra_id_compra_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+>>>>>>> branch 'master' of https://github.com/abrahamborda/farmacia.git
+--
+
+<<<<<<< HEAD
+SELECT pg_catalog.setval('public.detalle_compra_id_detalle_compra_seq', 12, true);
+=======
+SELECT pg_catalog.setval('public.compra_id_compra_seq', 4, true);
+>>>>>>> branch 'master' of https://github.com/abrahamborda/farmacia.git
+
+
+--
+<<<<<<< HEAD
+-- TOC entry 2122 (class 0 OID 522731127)
+-- Dependencies: 190
+-- Data for Name: detalle_venta; Type: TABLE DATA; Schema: public; Owner: postgres
+=======
+-- TOC entry 2113 (class 0 OID 522731089)
+-- Dependencies: 186
+-- Data for Name: detalle_compra; Type: TABLE DATA; Schema: public; Owner: postgres
+>>>>>>> branch 'master' of https://github.com/abrahamborda/farmacia.git
+--
+
+<<<<<<< HEAD
+COPY public.detalle_venta (id_detalle_venta, id_venta, id_producto, cantidad, precio_unitario, importe, id_detalle_compra) FROM stdin;
+3	2	5	22	2.40	52.80	11
+4	2	5	2	3.00	6.00	7
+=======
+COPY public.detalle_compra (id_detalle_compra, id_compra, id_producto, cantidad, precio_unitario, importe, nro_lote, fec_vencimiento, precio_venta) FROM stdin;
+12	1	5	1	4.00	4.00	234	2020-09-18	4.00
+9	3	5	1	33.00	33.00	234	2020-09-02	3.00
+11	3	5	1	44.00	44.00	2343	2020-09-09	2.40
+10	1	4	2	44.00	88.00	123456	2020-10-28	4.50
+7	1	5	1	43.00	43.00	45	2020-08-31	3.00
+>>>>>>> branch 'master' of https://github.com/abrahamborda/farmacia.git
+\.
+
+
+--
+<<<<<<< HEAD
+-- TOC entry 2144 (class 0 OID 0)
+=======
+-- TOC entry 2138 (class 0 OID 0)
 -- Dependencies: 185
 -- Name: detalle_compra_id_detalle_compra_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -600,19 +743,18 @@ SELECT pg_catalog.setval('public.detalle_compra_id_detalle_compra_seq', 12, true
 
 
 --
--- TOC entry 2122 (class 0 OID 522731127)
+-- TOC entry 2117 (class 0 OID 522731127)
 -- Dependencies: 190
 -- Data for Name: detalle_venta; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.detalle_venta (id_detalle_venta, id_venta, id_producto, cantidad, precio_unitario, importe, id_detalle_compra) FROM stdin;
-3	2	5	22	2.40	52.80	11
-4	2	5	2	3.00	6.00	7
 \.
 
 
 --
--- TOC entry 2144 (class 0 OID 0)
+-- TOC entry 2139 (class 0 OID 0)
+>>>>>>> branch 'master' of https://github.com/abrahamborda/farmacia.git
 -- Dependencies: 189
 -- Name: detalle_venta_id_detalle_venta_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -621,7 +763,11 @@ SELECT pg_catalog.setval('public.detalle_venta_id_detalle_venta_seq', 4, true);
 
 
 --
+<<<<<<< HEAD
 -- TOC entry 2112 (class 0 OID 522731022)
+=======
+-- TOC entry 2107 (class 0 OID 522731022)
+>>>>>>> branch 'master' of https://github.com/abrahamborda/farmacia.git
 -- Dependencies: 180
 -- Data for Name: laboratorio; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -633,7 +779,11 @@ COPY public.laboratorio (id_laboratorio, id_usuario, nombre, telefono, estado, f
 
 
 --
+<<<<<<< HEAD
 -- TOC entry 2145 (class 0 OID 0)
+=======
+-- TOC entry 2140 (class 0 OID 0)
+>>>>>>> branch 'master' of https://github.com/abrahamborda/farmacia.git
 -- Dependencies: 179
 -- Name: laboratorio_id_laboratorio_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -642,7 +792,11 @@ SELECT pg_catalog.setval('public.laboratorio_id_laboratorio_seq', 2, true);
 
 
 --
+<<<<<<< HEAD
 -- TOC entry 2108 (class 0 OID 522730996)
+=======
+-- TOC entry 2103 (class 0 OID 522730996)
+>>>>>>> branch 'master' of https://github.com/abrahamborda/farmacia.git
 -- Dependencies: 176
 -- Data for Name: persona; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -650,6 +804,7 @@ SELECT pg_catalog.setval('public.laboratorio_id_laboratorio_seq', 2, true);
 COPY public.persona (id_persona, id_usuario, nombre, ap, am, telefono, direccion, estado, fecha_reg, fecha_mod) FROM stdin;
 1	1	AAA	BBB	JJJJ	2345	FRKJ	A	2020-09-15 16:55:04.319-04	2020-09-17 20:06:18.636-04
 2	1	AAASD	ASD				A	2020-09-17 13:03:56.934-04	2020-09-18 10:36:25.138-04
+<<<<<<< HEAD
 \.
 
 
@@ -671,11 +826,38 @@ SELECT pg_catalog.setval('public.persona_id_persona_seq', 2, true);
 COPY public.producto (id_producto, id_categoria, id_laboratorio, id_usuario, principio, presentacion, unidad_medida, cantidad, descripcion, estado, fecha_reg, fecha_mod) FROM stdin;
 5	1	2	1	SFF	white	black	67	SADF	A	2020-09-17 22:55:22.747-04	\N
 4	2	2	1	ASDF	blue	white	3	FASDF	A	\N	\N
+=======
+>>>>>>> branch 'master' of https://github.com/abrahamborda/farmacia.git
 \.
 
 
 --
+<<<<<<< HEAD
 -- TOC entry 2147 (class 0 OID 0)
+=======
+-- TOC entry 2141 (class 0 OID 0)
+-- Dependencies: 175
+-- Name: persona_id_persona_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.persona_id_persona_seq', 2, true);
+
+
+--
+-- TOC entry 2109 (class 0 OID 522731040)
+-- Dependencies: 182
+-- Data for Name: producto; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.producto (id_producto, id_categoria, id_laboratorio, id_usuario, principio, presentacion, unidad_medida, cantidad, descripcion, estado, fecha_reg, fecha_mod) FROM stdin;
+5	1	2	1	SFF	white	black	67	SADF	A	2020-09-17 22:55:22.747-04	\N
+4	2	2	1	ASDF	blue	white	3	FASDF	A	\N	\N
+\.
+
+
+--
+-- TOC entry 2142 (class 0 OID 0)
+>>>>>>> branch 'master' of https://github.com/abrahamborda/farmacia.git
 -- Dependencies: 181
 -- Name: producto_id_producto_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -684,7 +866,11 @@ SELECT pg_catalog.setval('public.producto_id_producto_seq', 7, true);
 
 
 --
+<<<<<<< HEAD
 -- TOC entry 2106 (class 0 OID 522730983)
+=======
+-- TOC entry 2101 (class 0 OID 522730983)
+>>>>>>> branch 'master' of https://github.com/abrahamborda/farmacia.git
 -- Dependencies: 174
 -- Data for Name: usuario; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -695,7 +881,11 @@ COPY public.usuario (id_usuario, id_persona, login, clave, estado, fecha_reg, fe
 
 
 --
+<<<<<<< HEAD
 -- TOC entry 2148 (class 0 OID 0)
+=======
+-- TOC entry 2143 (class 0 OID 0)
+>>>>>>> branch 'master' of https://github.com/abrahamborda/farmacia.git
 -- Dependencies: 173
 -- Name: usuario_id_usuario_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -704,7 +894,11 @@ SELECT pg_catalog.setval('public.usuario_id_usuario_seq', 1, true);
 
 
 --
+<<<<<<< HEAD
 -- TOC entry 2120 (class 0 OID 522731107)
+=======
+-- TOC entry 2115 (class 0 OID 522731107)
+>>>>>>> branch 'master' of https://github.com/abrahamborda/farmacia.git
 -- Dependencies: 188
 -- Data for Name: venta; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -717,7 +911,11 @@ COPY public.venta (id_venta, id_persona, id_usuario, subtotal, descuento, total,
 
 
 --
+<<<<<<< HEAD
 -- TOC entry 2149 (class 0 OID 0)
+=======
+-- TOC entry 2144 (class 0 OID 0)
+>>>>>>> branch 'master' of https://github.com/abrahamborda/farmacia.git
 -- Dependencies: 187
 -- Name: venta_id_venta_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -843,6 +1041,7 @@ ALTER TABLE ONLY public.detalle_compra
 
 
 --
+<<<<<<< HEAD
 -- TOC entry 1994 (class 2606 OID 522747546)
 -- Name: detalle_venta_id_detalle_compra_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
@@ -853,6 +1052,18 @@ ALTER TABLE ONLY public.detalle_venta
 
 --
 -- TOC entry 1992 (class 2606 OID 522731133)
+=======
+-- TOC entry 1990 (class 2606 OID 522747546)
+-- Name: detalle_venta_id_detalle_compra_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.detalle_venta
+    ADD CONSTRAINT detalle_venta_id_detalle_compra_fkey FOREIGN KEY (id_detalle_compra) REFERENCES public.detalle_compra(id_detalle_compra);
+
+
+--
+-- TOC entry 1988 (class 2606 OID 522731133)
+>>>>>>> branch 'master' of https://github.com/abrahamborda/farmacia.git
 -- Name: detalle_venta_id_producto_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -942,7 +1153,11 @@ ALTER TABLE ONLY public.venta
 
 
 --
+<<<<<<< HEAD
 -- TOC entry 2130 (class 0 OID 0)
+=======
+-- TOC entry 2125 (class 0 OID 0)
+>>>>>>> branch 'master' of https://github.com/abrahamborda/farmacia.git
 -- Dependencies: 6
 -- Name: SCHEMA public; Type: ACL; Schema: -; Owner: postgres
 --
@@ -953,7 +1168,11 @@ GRANT ALL ON SCHEMA public TO postgres;
 GRANT ALL ON SCHEMA public TO PUBLIC;
 
 
+<<<<<<< HEAD
 -- Completed on 2020-09-19 21:26:57
+=======
+-- Completed on 2020-09-19 13:27:48
+>>>>>>> branch 'master' of https://github.com/abrahamborda/farmacia.git
 
 --
 -- PostgreSQL database dump complete

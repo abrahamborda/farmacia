@@ -1,7 +1,9 @@
+<?init class="org.abc.services.AuthenticationInit"?>
 <window width="80%" title="Session Timeout" border="normal">
 	<vbox>
 La página o su componente solicitado ya no esta disponible.
 Esto pasa normalmente por timeout, opening too many Web pages, or rebooting
 the server.
+	<button label="redirect" onClick='execution.sendRedirect("http://localhost:8080/farmacia/")'/>
 	</vbox>
 </window>

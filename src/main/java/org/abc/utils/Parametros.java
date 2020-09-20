@@ -15,7 +15,10 @@ public class Parametros {
 	public static String VERDADERO = "Verdadero";
 	public static String FALSO = "Falso";
 	public static int DIAS_COMPRA = -30;
+<<<<<<< HEAD
 	public static int DIAS_VENTA = -7;
+=======
+>>>>>>> branch 'master' of https://github.com/abrahamborda/farmacia.git
 	public static String URL_ZUL= "/pages";
 	public static String URL_INDEX= "/";
 
