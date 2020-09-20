@@ -1,5 +1,6 @@
 package org.abc.services;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -22,6 +23,16 @@ public class PersonaServiceImpl implements PersonaService {
 		PersonaExample example = new PersonaExample();
 		example.createCriteria().andEstadoEqualTo(Parametros.ESTADO_ACTIVO);
 		example.setOrderByClause("ap,am,nombre");
+		return personaMapper.selectByExample(example);
+	}
+	
+	@Override
+	public List<Persona> getBuscarPersonasPorNombre(String nombre) {
+		if(nombre.trim().equals(""))
+			return new ArrayList<Persona>();
+		PersonaExample example = new PersonaExample();
+		example.createCriteria().andNombreLike(Parametros.getStringLike(nombre)).andEstadoEqualTo(Parametros.ESTADO_ACTIVO);
+		example.setOrderByClause("nombre");
 		return personaMapper.selectByExample(example);
 	}
 

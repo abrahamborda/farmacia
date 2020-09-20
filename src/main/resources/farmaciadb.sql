@@ -4,7 +4,7 @@
 
 -- Dumped from database version 9.4.20
 -- Dumped by pg_dump version 9.4.20
--- Started on 2020-09-15 20:50:11
+-- Started on 2020-09-19 21:26:57
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -23,7 +23,7 @@ CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 
 
 --
--- TOC entry 2125 (class 0 OID 0)
+-- TOC entry 2131 (class 0 OID 0)
 -- Dependencies: 1
 -- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
 --
@@ -67,7 +67,7 @@ CREATE SEQUENCE public.categoria_id_categoria_seq
 ALTER TABLE public.categoria_id_categoria_seq OWNER TO postgres;
 
 --
--- TOC entry 2126 (class 0 OID 0)
+-- TOC entry 2132 (class 0 OID 0)
 -- Dependencies: 177
 -- Name: categoria_id_categoria_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -87,7 +87,9 @@ CREATE TABLE public.compra (
     total numeric(10,2),
     estado character(1) DEFAULT 'A'::bpchar,
     fecha_reg timestamp with time zone DEFAULT now(),
-    fecha_mod timestamp with time zone
+    fecha_mod timestamp with time zone,
+    fecha date,
+    hora time with time zone
 );
 
 
@@ -109,7 +111,7 @@ CREATE SEQUENCE public.compra_id_compra_seq
 ALTER TABLE public.compra_id_compra_seq OWNER TO postgres;
 
 --
--- TOC entry 2127 (class 0 OID 0)
+-- TOC entry 2133 (class 0 OID 0)
 -- Dependencies: 183
 -- Name: compra_id_compra_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -131,11 +133,61 @@ CREATE TABLE public.detalle_compra (
     importe numeric(10,2) NOT NULL,
     nro_lote integer,
     fec_vencimiento date,
-    precio_venta numeric(10,2) NOT NULL
+    precio_venta numeric(10,2)
 );
 
 
 ALTER TABLE public.detalle_compra OWNER TO postgres;
+
+--
+-- TOC entry 190 (class 1259 OID 522731127)
+-- Name: detalle_venta; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE public.detalle_venta (
+    id_detalle_venta integer NOT NULL,
+    id_venta integer NOT NULL,
+    id_producto integer NOT NULL,
+    cantidad integer NOT NULL,
+    precio_unitario numeric(10,2) NOT NULL,
+    importe numeric(10,2) NOT NULL,
+    id_detalle_compra integer NOT NULL
+);
+
+
+ALTER TABLE public.detalle_venta OWNER TO postgres;
+
+--
+-- TOC entry 191 (class 1259 OID 522763935)
+-- Name: det_compra_inventario; Type: VIEW; Schema: public; Owner: postgres
+--
+
+CREATE VIEW public.det_compra_inventario AS
+ SELECT dc.id_detalle_compra,
+    dc.id_compra,
+    dc.id_producto,
+    dc.cantidad,
+    dc.precio_unitario,
+    dc.importe,
+    dc.nro_lote,
+    dc.fec_vencimiento,
+    dc.precio_venta,
+    (dc.cantidad - (sum(
+        CASE
+            WHEN (dv.cantidad IS NULL) THEN 0
+            ELSE dv.cantidad
+        END))::integer) AS cnt_actual
+   FROM (public.detalle_compra dc
+     LEFT JOIN public.detalle_venta dv ON ((dc.id_detalle_compra = dv.id_detalle_compra)))
+  GROUP BY dc.id_detalle_compra, dc.id_compra, dc.id_producto, dc.cantidad, dc.precio_unitario, dc.importe, dc.nro_lote, dc.fec_vencimiento, dc.precio_venta
+ HAVING (dc.cantidad > sum(
+        CASE
+            WHEN (dv.cantidad IS NULL) THEN 0
+            ELSE dv.cantidad
+        END));
+
+
+ALTER TABLE public.det_compra_inventario OWNER TO postgres;
 
 --
 -- TOC entry 185 (class 1259 OID 522731087)
@@ -153,30 +205,13 @@ CREATE SEQUENCE public.detalle_compra_id_detalle_compra_seq
 ALTER TABLE public.detalle_compra_id_detalle_compra_seq OWNER TO postgres;
 
 --
--- TOC entry 2128 (class 0 OID 0)
+-- TOC entry 2134 (class 0 OID 0)
 -- Dependencies: 185
 -- Name: detalle_compra_id_detalle_compra_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
 ALTER SEQUENCE public.detalle_compra_id_detalle_compra_seq OWNED BY public.detalle_compra.id_detalle_compra;
 
-
---
--- TOC entry 190 (class 1259 OID 522731127)
--- Name: detalle_venta; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
---
-
-CREATE TABLE public.detalle_venta (
-    id_detalle_venta integer NOT NULL,
-    id_venta integer NOT NULL,
-    id_producto integer NOT NULL,
-    cantidad integer NOT NULL,
-    precio_unitario numeric(10,2) NOT NULL,
-    importe numeric(10,2) NOT NULL
-);
-
-
-ALTER TABLE public.detalle_venta OWNER TO postgres;
 
 --
 -- TOC entry 189 (class 1259 OID 522731125)
@@ -194,7 +229,7 @@ CREATE SEQUENCE public.detalle_venta_id_detalle_venta_seq
 ALTER TABLE public.detalle_venta_id_detalle_venta_seq OWNER TO postgres;
 
 --
--- TOC entry 2129 (class 0 OID 0)
+-- TOC entry 2135 (class 0 OID 0)
 -- Dependencies: 189
 -- Name: detalle_venta_id_detalle_venta_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -236,7 +271,7 @@ CREATE SEQUENCE public.laboratorio_id_laboratorio_seq
 ALTER TABLE public.laboratorio_id_laboratorio_seq OWNER TO postgres;
 
 --
--- TOC entry 2130 (class 0 OID 0)
+-- TOC entry 2136 (class 0 OID 0)
 -- Dependencies: 179
 -- Name: laboratorio_id_laboratorio_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -281,7 +316,7 @@ CREATE SEQUENCE public.persona_id_persona_seq
 ALTER TABLE public.persona_id_persona_seq OWNER TO postgres;
 
 --
--- TOC entry 2131 (class 0 OID 0)
+-- TOC entry 2137 (class 0 OID 0)
 -- Dependencies: 175
 -- Name: persona_id_persona_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -328,7 +363,7 @@ CREATE SEQUENCE public.producto_id_producto_seq
 ALTER TABLE public.producto_id_producto_seq OWNER TO postgres;
 
 --
--- TOC entry 2132 (class 0 OID 0)
+-- TOC entry 2138 (class 0 OID 0)
 -- Dependencies: 181
 -- Name: producto_id_producto_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -370,7 +405,7 @@ CREATE SEQUENCE public.usuario_id_usuario_seq
 ALTER TABLE public.usuario_id_usuario_seq OWNER TO postgres;
 
 --
--- TOC entry 2133 (class 0 OID 0)
+-- TOC entry 2139 (class 0 OID 0)
 -- Dependencies: 173
 -- Name: usuario_id_usuario_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -392,7 +427,9 @@ CREATE TABLE public.venta (
     total numeric(10,2),
     estado character(1) DEFAULT 'A'::bpchar,
     fecha_reg timestamp with time zone DEFAULT now(),
-    fecha_mod timestamp with time zone
+    fecha_mod timestamp with time zone,
+    fecha date,
+    hora time with time zone
 );
 
 
@@ -414,7 +451,7 @@ CREATE SEQUENCE public.venta_id_venta_seq
 ALTER TABLE public.venta_id_venta_seq OWNER TO postgres;
 
 --
--- TOC entry 2134 (class 0 OID 0)
+-- TOC entry 2140 (class 0 OID 0)
 -- Dependencies: 187
 -- Name: venta_id_venta_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -423,7 +460,7 @@ ALTER SEQUENCE public.venta_id_venta_seq OWNED BY public.venta.id_venta;
 
 
 --
--- TOC entry 1940 (class 2604 OID 522731012)
+-- TOC entry 1944 (class 2604 OID 522731012)
 -- Name: id_categoria; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -431,7 +468,7 @@ ALTER TABLE ONLY public.categoria ALTER COLUMN id_categoria SET DEFAULT nextval(
 
 
 --
--- TOC entry 1950 (class 2604 OID 522731072)
+-- TOC entry 1954 (class 2604 OID 522731072)
 -- Name: id_compra; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -439,7 +476,7 @@ ALTER TABLE ONLY public.compra ALTER COLUMN id_compra SET DEFAULT nextval('publi
 
 
 --
--- TOC entry 1953 (class 2604 OID 522731092)
+-- TOC entry 1957 (class 2604 OID 522731092)
 -- Name: id_detalle_compra; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -447,7 +484,7 @@ ALTER TABLE ONLY public.detalle_compra ALTER COLUMN id_detalle_compra SET DEFAUL
 
 
 --
--- TOC entry 1957 (class 2604 OID 522731130)
+-- TOC entry 1961 (class 2604 OID 522731130)
 -- Name: id_detalle_venta; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -455,7 +492,7 @@ ALTER TABLE ONLY public.detalle_venta ALTER COLUMN id_detalle_venta SET DEFAULT 
 
 
 --
--- TOC entry 1943 (class 2604 OID 522731025)
+-- TOC entry 1947 (class 2604 OID 522731025)
 -- Name: id_laboratorio; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -463,7 +500,7 @@ ALTER TABLE ONLY public.laboratorio ALTER COLUMN id_laboratorio SET DEFAULT next
 
 
 --
--- TOC entry 1937 (class 2604 OID 522730999)
+-- TOC entry 1941 (class 2604 OID 522730999)
 -- Name: id_persona; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -471,7 +508,7 @@ ALTER TABLE ONLY public.persona ALTER COLUMN id_persona SET DEFAULT nextval('pub
 
 
 --
--- TOC entry 1946 (class 2604 OID 522731043)
+-- TOC entry 1950 (class 2604 OID 522731043)
 -- Name: id_producto; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -479,7 +516,7 @@ ALTER TABLE ONLY public.producto ALTER COLUMN id_producto SET DEFAULT nextval('p
 
 
 --
--- TOC entry 1934 (class 2604 OID 522730986)
+-- TOC entry 1938 (class 2604 OID 522730986)
 -- Name: id_usuario; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -487,7 +524,7 @@ ALTER TABLE ONLY public.usuario ALTER COLUMN id_usuario SET DEFAULT nextval('pub
 
 
 --
--- TOC entry 1954 (class 2604 OID 522731110)
+-- TOC entry 1958 (class 2604 OID 522731110)
 -- Name: id_venta; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -495,83 +532,96 @@ ALTER TABLE ONLY public.venta ALTER COLUMN id_venta SET DEFAULT nextval('public.
 
 
 --
--- TOC entry 2104 (class 0 OID 522731009)
+-- TOC entry 2110 (class 0 OID 522731009)
 -- Dependencies: 178
 -- Data for Name: categoria; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.categoria (id_categoria, nombre, estado, fecha_reg, fecha_mod) FROM stdin;
+1	CAT 	A	2020-09-17 20:10:41.053-04	\N
+2	FFFFFFFF	A	2020-09-17 20:10:48.939-04	\N
+3	TTTTTTTTTT	A	2020-09-17 20:10:50.99-04	\N
 \.
 
 
 --
--- TOC entry 2135 (class 0 OID 0)
+-- TOC entry 2141 (class 0 OID 0)
 -- Dependencies: 177
 -- Name: categoria_id_categoria_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.categoria_id_categoria_seq', 1, false);
+SELECT pg_catalog.setval('public.categoria_id_categoria_seq', 3, true);
 
 
 --
--- TOC entry 2110 (class 0 OID 522731069)
+-- TOC entry 2116 (class 0 OID 522731069)
 -- Dependencies: 184
 -- Data for Name: compra; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.compra (id_compra, id_persona, id_usuario, total, estado, fecha_reg, fecha_mod) FROM stdin;
+COPY public.compra (id_compra, id_persona, id_usuario, total, estado, fecha_reg, fecha_mod, fecha, hora) FROM stdin;
+3	2	1	77.00	A	2020-09-18 22:14:30.722-04	2020-09-19 13:06:40.033-04	2020-09-10	19:00:00-04
+1	1	1	135.00	A	2020-09-18 14:53:40.367-04	2020-09-19 13:18:25.276-04	2020-09-18	19:15:00-04
+5	1	1	0.00	A	2020-09-19 21:19:56.701-04	\N	2020-09-19	\N
 \.
 
 
 --
--- TOC entry 2136 (class 0 OID 0)
+-- TOC entry 2142 (class 0 OID 0)
 -- Dependencies: 183
 -- Name: compra_id_compra_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.compra_id_compra_seq', 1, false);
+SELECT pg_catalog.setval('public.compra_id_compra_seq', 5, true);
 
 
 --
--- TOC entry 2112 (class 0 OID 522731089)
+-- TOC entry 2118 (class 0 OID 522731089)
 -- Dependencies: 186
 -- Data for Name: detalle_compra; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.detalle_compra (id_detalle_compra, id_compra, id_producto, cantidad, precio_unitario, importe, nro_lote, fec_vencimiento, precio_venta) FROM stdin;
+12	1	5	1	4.00	4.00	234	2020-09-18	4.00
+9	3	5	1	33.00	33.00	234	2020-09-02	3.00
+11	3	5	1	44.00	44.00	2343	2020-09-09	2.40
+10	1	4	2	44.00	88.00	123456	2020-10-28	4.50
+7	1	5	1	43.00	43.00	45	2020-08-31	3.00
 \.
 
 
 --
--- TOC entry 2137 (class 0 OID 0)
+-- TOC entry 2143 (class 0 OID 0)
 -- Dependencies: 185
 -- Name: detalle_compra_id_detalle_compra_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.detalle_compra_id_detalle_compra_seq', 1, false);
+SELECT pg_catalog.setval('public.detalle_compra_id_detalle_compra_seq', 12, true);
 
 
 --
--- TOC entry 2116 (class 0 OID 522731127)
+-- TOC entry 2122 (class 0 OID 522731127)
 -- Dependencies: 190
 -- Data for Name: detalle_venta; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.detalle_venta (id_detalle_venta, id_venta, id_producto, cantidad, precio_unitario, importe) FROM stdin;
+COPY public.detalle_venta (id_detalle_venta, id_venta, id_producto, cantidad, precio_unitario, importe, id_detalle_compra) FROM stdin;
+3	2	5	22	2.40	52.80	11
+4	2	5	2	3.00	6.00	7
 \.
 
 
 --
--- TOC entry 2138 (class 0 OID 0)
+-- TOC entry 2144 (class 0 OID 0)
 -- Dependencies: 189
 -- Name: detalle_venta_id_detalle_venta_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.detalle_venta_id_detalle_venta_seq', 1, false);
+SELECT pg_catalog.setval('public.detalle_venta_id_detalle_venta_seq', 4, true);
 
 
 --
--- TOC entry 2106 (class 0 OID 522731022)
+-- TOC entry 2112 (class 0 OID 522731022)
 -- Dependencies: 180
 -- Data for Name: laboratorio; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -583,7 +633,7 @@ COPY public.laboratorio (id_laboratorio, id_usuario, nombre, telefono, estado, f
 
 
 --
--- TOC entry 2139 (class 0 OID 0)
+-- TOC entry 2145 (class 0 OID 0)
 -- Dependencies: 179
 -- Name: laboratorio_id_laboratorio_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -592,46 +642,49 @@ SELECT pg_catalog.setval('public.laboratorio_id_laboratorio_seq', 2, true);
 
 
 --
--- TOC entry 2102 (class 0 OID 522730996)
+-- TOC entry 2108 (class 0 OID 522730996)
 -- Dependencies: 176
 -- Data for Name: persona; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.persona (id_persona, id_usuario, nombre, ap, am, telefono, direccion, estado, fecha_reg, fecha_mod) FROM stdin;
-1	1	AAA	BBB	JJJJ	2345	FRKJ	A	2020-09-15 16:55:04.319-04	\N
+1	1	AAA	BBB	JJJJ	2345	FRKJ	A	2020-09-15 16:55:04.319-04	2020-09-17 20:06:18.636-04
+2	1	AAASD	ASD				A	2020-09-17 13:03:56.934-04	2020-09-18 10:36:25.138-04
 \.
 
 
 --
--- TOC entry 2140 (class 0 OID 0)
+-- TOC entry 2146 (class 0 OID 0)
 -- Dependencies: 175
 -- Name: persona_id_persona_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.persona_id_persona_seq', 1, true);
+SELECT pg_catalog.setval('public.persona_id_persona_seq', 2, true);
 
 
 --
--- TOC entry 2108 (class 0 OID 522731040)
+-- TOC entry 2114 (class 0 OID 522731040)
 -- Dependencies: 182
 -- Data for Name: producto; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.producto (id_producto, id_categoria, id_laboratorio, id_usuario, principio, presentacion, unidad_medida, cantidad, descripcion, estado, fecha_reg, fecha_mod) FROM stdin;
+5	1	2	1	SFF	white	black	67	SADF	A	2020-09-17 22:55:22.747-04	\N
+4	2	2	1	ASDF	blue	white	3	FASDF	A	\N	\N
 \.
 
 
 --
--- TOC entry 2141 (class 0 OID 0)
+-- TOC entry 2147 (class 0 OID 0)
 -- Dependencies: 181
 -- Name: producto_id_producto_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.producto_id_producto_seq', 1, false);
+SELECT pg_catalog.setval('public.producto_id_producto_seq', 7, true);
 
 
 --
--- TOC entry 2100 (class 0 OID 522730983)
+-- TOC entry 2106 (class 0 OID 522730983)
 -- Dependencies: 174
 -- Data for Name: usuario; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -642,7 +695,7 @@ COPY public.usuario (id_usuario, id_persona, login, clave, estado, fecha_reg, fe
 
 
 --
--- TOC entry 2142 (class 0 OID 0)
+-- TOC entry 2148 (class 0 OID 0)
 -- Dependencies: 173
 -- Name: usuario_id_usuario_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -651,26 +704,29 @@ SELECT pg_catalog.setval('public.usuario_id_usuario_seq', 1, true);
 
 
 --
--- TOC entry 2114 (class 0 OID 522731107)
+-- TOC entry 2120 (class 0 OID 522731107)
 -- Dependencies: 188
 -- Data for Name: venta; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.venta (id_venta, id_persona, id_usuario, subtotal, descuento, total, estado, fecha_reg, fecha_mod) FROM stdin;
+COPY public.venta (id_venta, id_persona, id_usuario, subtotal, descuento, total, estado, fecha_reg, fecha_mod, fecha, hora) FROM stdin;
+1	1	1	\N	\N	6.00	A	2020-09-19 19:36:18.623-04	2020-09-19 19:53:26.247-04	2020-09-19	12:02:00-04
+2	2	1	\N	\N	58.80	A	2020-09-19 19:51:31.674-04	2020-09-19 21:04:52.391-04	2020-09-19	19:51:00-04
+3	2	1	\N	\N	0.00	A	2020-09-19 21:13:39.902-04	2020-09-19 21:13:52.791-04	2020-09-19	21:13:00-04
 \.
 
 
 --
--- TOC entry 2143 (class 0 OID 0)
+-- TOC entry 2149 (class 0 OID 0)
 -- Dependencies: 187
 -- Name: venta_id_venta_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.venta_id_venta_seq', 1, false);
+SELECT pg_catalog.setval('public.venta_id_venta_seq', 3, true);
 
 
 --
--- TOC entry 1963 (class 2606 OID 522731019)
+-- TOC entry 1967 (class 2606 OID 522731019)
 -- Name: categoria_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -679,7 +735,7 @@ ALTER TABLE ONLY public.categoria
 
 
 --
--- TOC entry 1969 (class 2606 OID 522731076)
+-- TOC entry 1973 (class 2606 OID 522731076)
 -- Name: compra_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -688,7 +744,7 @@ ALTER TABLE ONLY public.compra
 
 
 --
--- TOC entry 1971 (class 2606 OID 522731094)
+-- TOC entry 1975 (class 2606 OID 522731094)
 -- Name: detalle_compra_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -697,7 +753,7 @@ ALTER TABLE ONLY public.detalle_compra
 
 
 --
--- TOC entry 1975 (class 2606 OID 522731132)
+-- TOC entry 1979 (class 2606 OID 522731132)
 -- Name: detalle_venta_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -706,7 +762,7 @@ ALTER TABLE ONLY public.detalle_venta
 
 
 --
--- TOC entry 1965 (class 2606 OID 522731032)
+-- TOC entry 1969 (class 2606 OID 522731032)
 -- Name: laboratorio_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -715,7 +771,7 @@ ALTER TABLE ONLY public.laboratorio
 
 
 --
--- TOC entry 1961 (class 2606 OID 522731006)
+-- TOC entry 1965 (class 2606 OID 522731006)
 -- Name: persona_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -724,7 +780,7 @@ ALTER TABLE ONLY public.persona
 
 
 --
--- TOC entry 1967 (class 2606 OID 522731051)
+-- TOC entry 1971 (class 2606 OID 522731051)
 -- Name: producto_pkey1; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -733,7 +789,7 @@ ALTER TABLE ONLY public.producto
 
 
 --
--- TOC entry 1959 (class 2606 OID 522730993)
+-- TOC entry 1963 (class 2606 OID 522730993)
 -- Name: usuario_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -742,7 +798,7 @@ ALTER TABLE ONLY public.usuario
 
 
 --
--- TOC entry 1973 (class 2606 OID 522731114)
+-- TOC entry 1977 (class 2606 OID 522731114)
 -- Name: venta_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -751,7 +807,7 @@ ALTER TABLE ONLY public.venta
 
 
 --
--- TOC entry 1982 (class 2606 OID 522731077)
+-- TOC entry 1986 (class 2606 OID 522731077)
 -- Name: compra_id_persona_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -760,7 +816,7 @@ ALTER TABLE ONLY public.compra
 
 
 --
--- TOC entry 1983 (class 2606 OID 522731082)
+-- TOC entry 1987 (class 2606 OID 522731082)
 -- Name: compra_id_usuario_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -769,7 +825,7 @@ ALTER TABLE ONLY public.compra
 
 
 --
--- TOC entry 1984 (class 2606 OID 522731095)
+-- TOC entry 1988 (class 2606 OID 522731095)
 -- Name: detalle_compra_id_compra_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -778,7 +834,7 @@ ALTER TABLE ONLY public.detalle_compra
 
 
 --
--- TOC entry 1985 (class 2606 OID 522731100)
+-- TOC entry 1989 (class 2606 OID 522731100)
 -- Name: detalle_compra_id_producto_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -787,7 +843,16 @@ ALTER TABLE ONLY public.detalle_compra
 
 
 --
--- TOC entry 1988 (class 2606 OID 522731133)
+-- TOC entry 1994 (class 2606 OID 522747546)
+-- Name: detalle_venta_id_detalle_compra_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.detalle_venta
+    ADD CONSTRAINT detalle_venta_id_detalle_compra_fkey FOREIGN KEY (id_detalle_compra) REFERENCES public.detalle_compra(id_detalle_compra);
+
+
+--
+-- TOC entry 1992 (class 2606 OID 522731133)
 -- Name: detalle_venta_id_producto_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -796,7 +861,7 @@ ALTER TABLE ONLY public.detalle_venta
 
 
 --
--- TOC entry 1989 (class 2606 OID 522731138)
+-- TOC entry 1993 (class 2606 OID 522731138)
 -- Name: detalle_venta_id_venta_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -805,7 +870,7 @@ ALTER TABLE ONLY public.detalle_venta
 
 
 --
--- TOC entry 1978 (class 2606 OID 522731154)
+-- TOC entry 1982 (class 2606 OID 522731154)
 -- Name: laboratorio_id_usuario_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -814,7 +879,7 @@ ALTER TABLE ONLY public.laboratorio
 
 
 --
--- TOC entry 1977 (class 2606 OID 522731149)
+-- TOC entry 1981 (class 2606 OID 522731149)
 -- Name: persona_id_usuario_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -823,7 +888,7 @@ ALTER TABLE ONLY public.persona
 
 
 --
--- TOC entry 1979 (class 2606 OID 522731052)
+-- TOC entry 1983 (class 2606 OID 522731052)
 -- Name: producto_id_categoria_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -832,7 +897,7 @@ ALTER TABLE ONLY public.producto
 
 
 --
--- TOC entry 1980 (class 2606 OID 522731057)
+-- TOC entry 1984 (class 2606 OID 522731057)
 -- Name: producto_id_laboratorio_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -841,7 +906,7 @@ ALTER TABLE ONLY public.producto
 
 
 --
--- TOC entry 1981 (class 2606 OID 522731062)
+-- TOC entry 1985 (class 2606 OID 522731062)
 -- Name: producto_id_usuario_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -850,7 +915,7 @@ ALTER TABLE ONLY public.producto
 
 
 --
--- TOC entry 1976 (class 2606 OID 522731144)
+-- TOC entry 1980 (class 2606 OID 522731144)
 -- Name: usuario_id_persona_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -859,7 +924,7 @@ ALTER TABLE ONLY public.usuario
 
 
 --
--- TOC entry 1986 (class 2606 OID 522731115)
+-- TOC entry 1990 (class 2606 OID 522731115)
 -- Name: venta_id_persona_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -868,7 +933,7 @@ ALTER TABLE ONLY public.venta
 
 
 --
--- TOC entry 1987 (class 2606 OID 522731120)
+-- TOC entry 1991 (class 2606 OID 522731120)
 -- Name: venta_id_usuario_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -877,7 +942,7 @@ ALTER TABLE ONLY public.venta
 
 
 --
--- TOC entry 2124 (class 0 OID 0)
+-- TOC entry 2130 (class 0 OID 0)
 -- Dependencies: 6
 -- Name: SCHEMA public; Type: ACL; Schema: -; Owner: postgres
 --
@@ -888,7 +953,7 @@ GRANT ALL ON SCHEMA public TO postgres;
 GRANT ALL ON SCHEMA public TO PUBLIC;
 
 
--- Completed on 2020-09-15 20:50:12
+-- Completed on 2020-09-19 21:26:57
 
 --
 -- PostgreSQL database dump complete

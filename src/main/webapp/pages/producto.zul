@@ -1,0 +1,153 @@
+<?page title="Producto Maintenance" ?>
+<?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver"?>
+<zk>
+	<style>.z-textbox{ text-transform:uppercase; }</style>
+	<window id="productosPage" border="none" width="100%" height=""
+		apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm') @init('org.abc.viewmodel.ProductoVM')">
+		<panel width="99%" border="normal">
+			<caption label="Productos (click para editar/ver)"
+				style="text-align: left;">
+				<button label="Registrar Nueva Producto"
+					onClick="@command('newProducto')" style="font-size:12px;" />
+			</caption>
+			<panelchildren>
+				<vlayout style="margin:10px;">
+					<listbox id="productosList"
+						model="@load(vm.productos)"
+						selectedItem="@bind(vm.selectedProducto)" width="99%"
+						height="200px" vflex="min" hflex="min" mold="paging"
+						pageSize="5">
+						<listhead>
+							<listheader label="id" align="left"
+								width="20px" sort="auto" />
+							<listheader label="Categoria" align="left"
+								width="200px" sort="auto" />
+							<listheader label="Laboratorio" align="left"
+								width="200px" sort="auto" />
+							<listheader label="Principio" align="left"
+								width="200px" />
+							<listheader label="Presentacion"
+								align="left" width="200px" />
+							<listheader label="Unidad" align="left"
+								width="200px" />
+							<listheader label="Cantidad" align="left"
+								width="50px" />
+							<listheader label="Descripcion" align="left"
+								width="100px" />
+						</listhead>
+						<template name="model" var="item">
+							<listitem
+								onClick="@command('editProducto')">
+								<listcell
+									label="@load(item.idProducto)" />
+								<listcell
+									label="@load(item.categoria.nombre)" />
+								<listcell
+									label="@load(item.laboratorio.nombre)" />
+								<listcell label="@load(item.principio)" />
+								<listcell
+									label="@load(item.presentacion)" />
+								<listcell
+									label="@load(item.unidadMedida)" />
+								<listcell label="@load(item.cantidad)" />
+								<listcell
+									label="@load(item.descripcion)" />
+							</listitem>
+						</template>
+					</listbox>
+				</vlayout>
+			</panelchildren>
+		</panel>
+		<panel width="99%" border="normal" title="Editar Producto"
+			visible="@load(vm.selectedProductoCopy ne null)">
+			<panelchildren>
+				<vlayout style="margin:10px;">
+					<groupbox validationMessages="@id('vmsgs')">
+						<vlayout id="productoForm"
+							style="margin:5px;">
+							<hlayout sclass="z-valign-middle">
+								<label value="Id:" />
+								<label
+									value="@bind(vm.selectedProductoCopy.idProducto) @save(vm.selectedProductoCopy.idProducto, before='submit')"
+									style="width:200px;margin-right:20px;" />
+								<label value="Categoria:" />
+								<combobox model="@load(vm.categorias)"
+									selectedItem="@bind(vm.selectedProductoCopy.categoria)"
+									width="200px" id="categoriaList" readonly="true">
+									<template name="model"
+										var="itemCat">
+										<comboitem
+											label="@load(itemCat.nombre)" />
+									</template>
+								</combobox>
+								<label value="Laboratorio:" />
+								<combobox model="@load(vm.laboratorios)"
+									selectedItem="@bind(vm.selectedProductoCopy.laboratorio)"
+									width="200px" id="laboratorioList" readonly="true">
+									<template name="model"
+										var="itemLab">
+										<comboitem
+											label="@load(itemLab.nombre)" />
+									</template>
+								</combobox>
+								<label value="principio:" />
+								<textbox
+									value="@bind(vm.selectedProductoCopy.principio) @save(vm.selectedProductoCopy.principio, before='submit')"
+									constraint="no empty" style="width:300px;margin-right:20px;" />
+							</hlayout>
+							<hlayout sclass="z-valign-middle">
+								<label value="presentacion:" />
+								<combobox id="cmbPresentacion"
+									width="150px" model="@load(vm.presentaciones)"
+									selectedItem="@bind(vm.selectedProductoCopy.presentacion)"
+									readonly="true">
+									<template name="model">
+										<comboitem label="@load(each)"
+											value="@load(each)" />
+									</template>
+								</combobox>
+								<!-- <textbox
+									value="@bind(vm.selectedProductoCopy.presentacion) @save(vm.selectedProductoCopy.presentacion, before='submit')"
+									constraint="no empty,no negative" style="width:200px" /> -->
+								<label value="unidadMedida:" />
+								<combobox id="cmbUnidadMedida"
+									width="150px" model="@load(vm.unidadesMedidas)"
+									selectedItem="@bind(vm.selectedProductoCopy.unidadMedida)"
+									readonly="true">
+									<template name="model">
+										<comboitem label="@load(each)"
+											value="@load(each)" />
+									</template>
+								</combobox>
+								<!-- <textbox
+									value="@bind(vm.selectedProductoCopy.unidadMedida) @save(vm.selectedProductoCopy.unidadMedida, before='submit')"
+									constraint="" style="width:200px" /> -->
+							</hlayout>
+							<hlayout sclass="z-valign-middle">
+								<label value="cantidad:" />
+								<intbox
+									value="@bind(vm.selectedProductoCopy.cantidad) @save(vm.selectedProductoCopy.cantidad, before='submit')"
+									constraint="no empty,no negative"
+									style="width:200px;margin-right:20px;" />
+								<label value="Descripcion:" />
+								<textbox
+									value="@bind(vm.selectedProductoCopy.descripcion) @save(vm.selectedProductoCopy.descripcion, before='submit')"
+									constraint="" style="width:400px;margin-right:20px;" />
+							</hlayout>
+							<hlayout style="margin-top:5px;">
+								<button label="Guardar"
+									onClick="@command('submit')" />
+								<button label="Eliminar"
+									onClick="@command('delete')" style="margin-left:5px;"
+									visible="@load(vm.selectedProductoCopy.idProducto ne null)" />
+								<button label="Cancelar"
+									onClick="@command('cancel')" />
+							</hlayout>
+						</vlayout>
+					</groupbox>
+				</vlayout>
+			</panelchildren>
+		</panel>
+	</window>
+</zk>

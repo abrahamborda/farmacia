@@ -17,7 +17,7 @@
 	Example defining the datasource from our properties file/filter,
 	If for example running HSQL as separate process:
 	-->
-	<bean id="empDS" class="org.apache.tomcat.dbcp.dbcp2.BasicDataSource">
+	<bean id="farmaciaDS" class="org.apache.tomcat.dbcp.dbcp2.BasicDataSource">
 		<property name="driverClassName" value="org.postgresql.Driver"/>
 		<property name="url" value="jdbc:postgresql://localhost:5432/farmaciadb"/>
 		<property name="username" value="postgres"/>
@@ -30,11 +30,11 @@
 	</jdbc:embedded-database>
 	 -->
 	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-		<property name="dataSource" ref="empDS"/>
+		<property name="dataSource" ref="farmaciaDS"/>
 	</bean>
 
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-		<property name="dataSource" ref="empDS"/>
+		<property name="dataSource" ref="farmaciaDS"/>
 		<property name="typeAliasesPackage" value="org.abc.domain"/>
 	</bean>
 

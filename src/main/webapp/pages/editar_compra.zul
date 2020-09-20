@@ -1,0 +1,115 @@
+<?page title="DetalleCompra Maintenance" ?>
+<?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver"?>
+<zk>
+<window id="detalleComprasPage" border="none" width="100%" height="" apply="org.zkoss.bind.BindComposer"
+	viewModel="@id('vm') @init('org.abc.viewmodel.EditarCompraVM')" mode="modal" closable="false" title="">
+	<panel width="99%" border="normal" title="DetalleCompra" visible="true">
+		<panelchildren>
+			<vlayout style="margin:10px;">
+				<grid>
+					<!-- <auxhead>
+						<auxheader label="Compra" colspan="5"></auxheader>
+					</auxhead> -->
+					<columns>
+					<column width="80px">id</column>
+					<column width="300px">Nombres</column>
+					<column width="150px">Fecha</column>
+					<column width="80px">Hora</column>
+					<column width="80px">Total</column>
+					<column width="150px"></column>
+					</columns>
+					<rows>
+						<row>
+							<label value="@load(vm.compra.idCompra)"></label>
+							<label value="@load(vm.compra.nomPersona)"></label>
+							<label value="@load(vm.compra.fecha) @converter('formatedDate', format='dd-MMM-yyyy')"></label>
+							<label value="@load(vm.compra.hora) @converter('formatedDate', format='HH:mm')"></label>
+							<label value="@load(vm.compra.total)" style="text-align:right;"></label>
+							<button label="Finalizar" onClick="@command('closeThis')"></button>
+						</row>
+					</rows>
+				</grid>
+			</vlayout>
+		</panelchildren>
+	</panel>
+	<panel width="99%" border="normal">
+		<caption label="DetalleCompras (click para editar/ver)" style="text-align: left;">
+			 <button label="Adicionar Producto" onClick="@command('newDetalleCompra')" style="font-size:12px;" />
+		</caption>
+		<panelchildren>
+			<vlayout style="margin:10px;">
+				<listbox id="detalleComprasList" model="@load(vm.detalleCompras)"
+						 selectedItem="@bind(vm.selectedDetalleCompra)"
+						 width="99%" height="200px" vflex="min" hflex="min" mold="paging" pageSize="5">
+ 					<listhead>
+						<listheader label="id" align="left"   width="80px" sort="auto"/>
+						<listheader label="Producto" align="left"   width="300px" sort="auto"/>
+						<listheader label="Cant." align="left" width="80px" sort="auto"/>
+						<listheader label="P. Unit." align="left"  width="80px"/>
+						<listheader label="Importe" align="left"  width="80px"/>
+						<listheader label="Nro. Lote" align="left"  width="90px"/>
+						<listheader label="Fec. Venc." align="left"  width="150px"/>
+						<listheader label="P. Venta" align="left"  width="80px"/>
+					</listhead>
+					<template name="model" var="item">
+						<listitem onClick="@command('editDetalleCompra')">
+							<listcell label="@load(item.idDetalleCompra)"/>
+							<listcell label="@load(item.detProducto)"/>
+							<listcell label="@load(item.cantidad)" style="text-align:right;"/>
+							<listcell label="@load(item.precioUnitario)" style="text-align:right;"/>
+							<listcell label="@load(item.importe)" style="text-align:right;"/>
+							<listcell label="@load(item.nroLote)" style="text-align:right;"/>
+							<listcell label="@load(item.fecVencimiento) @converter('formatedDate', format='dd-MMM-yyyy')"/>
+							<listcell label="@load(item.precioVenta)" style="text-align:right;"/>
+						</listitem>
+					</template>
+				</listbox>
+			</vlayout>
+		</panelchildren>
+	</panel>
+	<panel width="99%" border="normal" title="DetalleCompra" visible="@load(vm.selectedDetalleCompraCopy ne null)">
+		<panelchildren>
+			<vlayout style="margin:10px;">
+				<groupbox validationMessages="@id('vmsgs')">
+					<vlayout id="detalleCompraForm" style="margin:5px;">
+						<hlayout sclass="z-valign-middle">
+							<label value="Id:"/>
+							<label value="@bind(vm.selectedDetalleCompraCopy.idDetalleCompra) @save(vm.selectedDetalleCompraCopy.idDetalleCompra, before='submit')"
+									style="width:200px;margin-right:20px;"/>
+							<label value="Producto:"/>
+							<textbox value="@bind(vm.selectedDetalleCompraCopy.detProducto) @save(vm.selectedDetalleCompraCopy.detProducto, before='submit')"
+									 constraint="no empty" style="width:300px;margin-right:20px;" readonly="true"/>
+							<button label="Buscar Producto" onClick="@command('buscarProducto',idProducto=vm.selectedDetalleCompraCopy.idProducto)" />
+							<label value="cantidad:"/>
+							<intbox value="@bind(vm.selectedDetalleCompraCopy.cantidad) @save(vm.selectedDetalleCompraCopy.cantidad, before='submit')"
+									 constraint="no empty,no negative,no zero" style="width:80px" onChange="@command('calcularImporte')"/>
+							<label value="precioUnitario:"/>
+							<decimalbox value="@bind(vm.selectedDetalleCompraCopy.precioUnitario) @save(vm.selectedDetalleCompraCopy.precioUnitario, before='submit')"
+									 constraint="no empty,no negative,no zero" style="width:80px" onChange="@command('calcularImporte')"/>
+						</hlayout>
+						<hlayout sclass="z-valign-middle">
+							<label value="importe:"/>
+							<decimalbox value="@bind(vm.selectedDetalleCompraCopy.importe) @save(vm.selectedDetalleCompraCopy.importe, before='submit')"
+									 constraint="no empty,no negative" style="width:80px;margin-right:20px;" readonly="true"/>
+							<label value="nroLote:"/>
+							<intbox value="@bind(vm.selectedDetalleCompraCopy.nroLote) @save(vm.selectedDetalleCompraCopy.nroLote, before='submit')"
+									 constraint="no empty,no negative" style="width:90px;margin-right:20px;"/>
+							<label value="fecVencimiento:"/>
+							<datebox value="@bind(vm.selectedDetalleCompraCopy.fecVencimiento) @save(vm.selectedDetalleCompraCopy.fecVencimiento, before='submit')"
+									 constraint="" style="width:150px;margin-right:20px;"/>
+							<label value="precioVenta:"/>
+							<decimalbox value="@bind(vm.selectedDetalleCompraCopy.precioVenta) @save(vm.selectedDetalleCompraCopy.precioVenta, before='submit')"
+									 constraint="" style="width:80px;margin-right:20px;"/>
+						</hlayout>
+						<hlayout style="margin-top:5px;">
+							<button label="Guardar" onClick="@command('submit')" />
+							<button label="Eliminar" onClick="@command('delete')" style="margin-left:5px;" visible="@load(vm.selectedDetalleCompraCopy.idDetalleCompra ne null)"/>
+							<button label="Cancelar" onClick="@command('cancel')" />
+						</hlayout>
+					</vlayout>
+				</groupbox>
+			</vlayout>
+		</panelchildren>
+	</panel>
+</window>
+</zk>

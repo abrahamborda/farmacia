@@ -1,17 +1,21 @@
 package org.abc.viewmodel;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.abc.domain.Menu;
 import org.abc.domain.Usuario;
 import org.abc.services.AuthenticationService;
 import org.abc.services.AuthenticationServiceImpl;
+import org.abc.utils.Parametros;
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.select.annotation.Wire;
+import org.zkoss.zul.Window;
 
 public class PrincipalVM {
 	
@@ -26,9 +30,9 @@ public class PrincipalVM {
 		initMenu();
 		usuario=authenticationService.getUserCredential();
 		if(usuario==null)
-			currentPage = "/pages/login.zul";
+			currentPage = Parametros.URL_ZUL+"/login.zul";
 		else
-			currentPage = "/pages/index2.zul";
+			currentPage = Parametros.URL_ZUL+"/index2.zul";
 	}
 
 	public ArrayList<Menu> getListMenu() {
@@ -47,21 +51,24 @@ public class PrincipalVM {
 
 	private void initMenu() {
 		listMenu = new ArrayList<Menu>();
-		addPage("Personas", "/persona.zul");
 		addPage("Laboratorios", "/laboratorio.zul");
-		addPage("Orders", "/index2.zul");
-		addPage("Fan Service", "/index2.zul");
+		addPage("Personas", "/persona.zul");
+//		addPage("Buscar Personas", "/buscar_persona.zul");
+		addPage("Productos", "/producto.zul");
+//		addPage("Buscar Productos", "/buscar_producto.zul");
+		addPage("Compras", "/compra.zul");
+		addPage("Ventas", "/venta.zul");
 	}
 
 	private void addPage(String title, String includeUri) {
-		includeUri = "/pages" + includeUri;
+		includeUri = Parametros.URL_ZUL + includeUri;
 		listMenu.add(new Menu(title, includeUri));
 	}
 
 	@Command
 	public void logout() {
 		authenticationService.logout();
-		Executions.sendRedirect("/");
+		Executions.sendRedirect(Parametros.URL_INDEX);
 	}
 
 	public Usuario getUsuario() {

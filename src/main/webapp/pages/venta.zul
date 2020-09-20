@@ -1,0 +1,87 @@
+<?page title="Venta Maintenance" ?>
+<?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver"?>
+<zk>
+<style>
+    .z-textbox{
+    	text-transform:uppercase;
+    }
+</style>
+<window id="ventasPage" border="none" width="100%" height="" apply="org.zkoss.bind.BindComposer"
+	viewModel="@id('vm') @init('org.abc.viewmodel.VentaVM')">
+	<panel width="99%" border="normal">
+		<!-- <caption label="Fechas" style="text-align: left;" /> -->
+		<panelchildren>
+			<hlayout id="fechasForm" style="margin:5px;">
+				<label value="Fechas:" />
+				<datebox id="dtFecInicio" value="@bind(vm.fecInicio)" readonly="true"
+					style="width:200px;margin-right:20px;" onChange="@command('buscar')"/>
+				<datebox id="dtFecFin" value="@bind(vm.fecFin)" readonly="true"
+					style="width:200px;margin-right:20px;" onChange="@command('buscar')"/>
+				<button label="Buscar"
+					onClick="@command('buscar')"
+					style="font-size:12px;" />
+			</hlayout>
+		</panelchildren>
+	</panel>
+	<panel width="99%" border="normal">
+		<caption label="Ventas (click para editar/ver)" style="text-align: left;">
+			 <button label="Registrar Nueva Venta" onClick="@command('newVenta')" style="font-size:12px;" />
+		</caption>
+		<panelchildren>
+			<vlayout style="margin:10px;">
+				<listbox id="ventasList" model="@load(vm.ventas)"
+						 selectedItem="@bind(vm.selectedVenta)"
+						 width="99%" height="200px" vflex="min" hflex="min" mold="paging" pageSize="5">
+ 					<listhead>
+						<listheader label="id" align="left"   width="80px" sort="auto"/>
+						<listheader label="Nombres" align="left"   width="300px" sort="auto"/>
+						<listheader label="Fecha" align="left" width="200px" sort="auto"/>
+						<listheader label="Hora" align="left"  width="200px"/>
+						<listheader label="Total" align="left"  width="200px"/>
+					</listhead>
+					<template name="model" var="item">
+						<listitem onClick="@command('editVenta')">
+							<listcell label="@load(item.idVenta)"/>
+							<listcell label="@load(item.nomPersona)"/>
+							<listcell label="@load(item.fecha) @converter('formatedDate', format='dd-MMM-yyyy')"/>
+							<listcell label="@load(item.hora) @converter('formatedDate', format='HH:mm')"/>
+							<listcell label="@load(item.total) @converter('formatedNumber', format='###,##0.00')" style="text-align:right;"/>
+						</listitem>
+					</template>
+				</listbox>
+			</vlayout>
+		</panelchildren>
+	</panel>
+	<panel width="99%" border="normal" title="Venta" visible="@load(vm.selectedVentaCopy ne null)">
+		<panelchildren>
+			<vlayout style="margin:10px;">
+				<groupbox validationMessages="@id('vmsgs')">
+					<vlayout id="ventaForm" style="margin:5px;">
+						<hlayout sclass="z-valign-middle">
+							<label value="Id:"/>
+							<label value="@bind(vm.selectedVentaCopy.idVenta) @save(vm.selectedVentaCopy.idVenta, before='submit')"
+									style="width:200px;margin-right:20px;"/>
+							<label value="Nombres:"/>
+							<textbox value="@bind(vm.selectedVentaCopy.nomPersona) @save(vm.selectedVentaCopy.nomPersona, before='submit')"
+									 constraint="no empty" style="width:300px;margin-right:20px;" readonly="true"/>
+							<button label="Buscar Persona" onClick="@command('buscarPersona')" />
+							<label value="fecha:"/>
+							<datebox value="@bind(vm.selectedVentaCopy.fecha) @save(vm.selectedVentaCopy.fecha, before='submit')"
+									 constraint="no empty" style="width:200px" readonly="true"/>
+							<label value="Hora:"/>
+							<timebox value="@bind(vm.selectedVentaCopy.hora) @save(vm.selectedVentaCopy.hora, before='submit')"
+									 constraint="" style="width:200px" format="HH:mm"/>
+						</hlayout>
+						<hlayout style="margin-top:5px;">
+							<button label="Guardar" onClick="@command('submit')" />
+							<button label="Eliminar" onClick="@command('delete')" style="margin-left:5px;" visible="@load(vm.selectedVentaCopy.idVenta ne null)"/>
+							<button label="Cancelar" onClick="@command('cancel')" />
+							<button label="Adm. Detalle de Venta" onClick="@command('admDetalle')" visible="@load(vm.selectedVentaCopy.idVenta ne null)"/>
+						</hlayout>
+					</vlayout>
+				</groupbox>
+			</vlayout>
+		</panelchildren>
+	</panel>
+</window>
+</zk>

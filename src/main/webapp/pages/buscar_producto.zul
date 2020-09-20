@@ -1,0 +1,84 @@
+<?page title="Producto Maintenance" ?>
+<?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver"?>
+<zk>
+	<window id="buscar_productosPage" border="normal" width="" height=""
+		apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vmBuscarPrd') @init('org.abc.viewmodel.BuscarProductoVM')"
+		mode="modal" closable="true" title="dfghj">
+		<!-- 
+		<groupbox validationMessages="@id('vmsgs')">
+			<hlayout id="productoForm" style="margin:5px;">
+				<label value="Nombres:" />
+				<textbox id="txtNombre" value="" constraint="no empty"
+					style="width:300px;margin-right:20px;" />
+				<button label="Buscar"
+					onClick="@command('buscar',nombres=txtNombre.value)"
+					style="font-size:12px;" />
+			</hlayout>
+		</groupbox>
+		 -->
+		<panel width="99%" border="normal">
+			<caption label="Buscar Productos" style="text-align: left;">
+			</caption>
+			<panelchildren>
+				<vlayout style="margin:10px;">
+					<listbox id="productosList"
+						model="@load(vmBuscarPrd.productos)"
+						selectedItem="@bind(vmBuscarPrd.selectedProducto)" width="730px"
+						height="" vflex="min" hflex="min" mold="paging"
+						pageSize="5">
+						<auxhead>
+							<auxheader></auxheader>
+							<auxheader label="">
+								<textbox instant="true" width="300px" constraint="no empty"
+									value="@bind(vmBuscarPrd.prdABuscar.descripcion)" onChange="@command('buscar')" />
+							</auxheader>
+							<auxheader label="">
+								<textbox instant="true" width="300px" constraint="no empty"
+									value="@bind(vmBuscarPrd.prdABuscar.principio)" onChange="@command('buscar')" />
+							</auxheader>
+							<auxheader colspan="5"></auxheader>
+						</auxhead>
+						<listhead>
+							<listheader label="id" align="left"
+								width="50px" sort="auto" />
+							<listheader label="Descripcion" align="left"
+								width="200px" />
+							<listheader label="Principio" align="left"
+								width="200px" />
+							<listheader label="Categoria" align="left"
+								width="200px" sort="auto" />
+							<listheader label="Laboratorio" align="left"
+								width="200px" sort="auto" />
+							<listheader label="Presentacion"
+								align="left" width="200px" />
+							<listheader label="Unidad" align="left"
+								width="100px" />
+							<listheader label="Cantidad" align="left"
+								width="50px" />
+						</listhead>
+						<template name="model" var="item">
+							<listitem
+								onClick="@command('selectedProducto')">
+								<listcell
+									label="@load(item.idProducto)" />
+								<listcell
+									label="@load(item.descripcion)" />
+								<listcell label="@load(item.principio)" />
+								<listcell
+									label="@load(item.categoria.nombre)" />
+								<listcell
+									label="@load(item.laboratorio.nombre)" />
+								<listcell
+									label="@load(item.presentacion)" />
+								<listcell
+									label="@load(item.unidadMedida)" />
+								<listcell label="@load(item.cantidad)" />
+							</listitem>
+						</template>
+					</listbox>
+				</vlayout>
+			</panelchildren>
+		</panel>
+	</window>
+</zk>

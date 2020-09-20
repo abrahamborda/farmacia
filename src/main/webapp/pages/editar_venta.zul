@@ -1,0 +1,100 @@
+<?page title="DetalleVenta Maintenance" ?>
+<?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver"?>
+<zk>
+<window id="detalleVentasPage" border="none" width="100%" height="" apply="org.zkoss.bind.BindComposer"
+	viewModel="@id('vm') @init('org.abc.viewmodel.EditarVentaVM')" mode="modal" closable="false" title="">
+	<panel width="99%" border="normal" title="DetalleVenta" visible="true">
+		<panelchildren>
+			<vlayout style="margin:10px;">
+				<grid>
+					<!-- <auxhead>
+						<auxheader label="Venta" colspan="5"></auxheader>
+					</auxhead> -->
+					<columns>
+					<column width="80px">id</column>
+					<column width="300px">Nombres</column>
+					<column width="150px">Fecha</column>
+					<column width="80px">Hora</column>
+					<column width="80px">Total</column>
+					<column width="150px"></column>
+					</columns>
+					<rows>
+						<row>
+							<label value="@load(vm.venta.idVenta)"></label>
+							<label value="@load(vm.venta.nomPersona)"></label>
+							<label value="@load(vm.venta.fecha) @converter('formatedDate', format='dd-MMM-yyyy')"></label>
+							<label value="@load(vm.venta.hora) @converter('formatedDate', format='HH:mm')"></label>
+							<label value="@load(vm.venta.total)" style="text-align:right;"></label>
+							<button label="Finalizar" onClick="@command('closeThis')"></button>
+						</row>
+					</rows>
+				</grid>
+			</vlayout>
+		</panelchildren>
+	</panel>
+	<panel width="99%" border="normal">
+		<caption label="DetalleVentas (click para editar/ver)" style="text-align: left;">
+			 <button label="Adicionar Producto" onClick="@command('newDetalleVenta')" style="font-size:12px;" />
+		</caption>
+		<panelchildren>
+			<vlayout style="margin:10px;">
+				<listbox id="detalleVentasList" model="@load(vm.detalleVentas)"
+						 selectedItem="@bind(vm.selectedDetalleVenta)"
+						 width="99%" height="200px" vflex="min" hflex="min" mold="paging" pageSize="5">
+ 					<listhead>
+						<listheader label="id" align="left"   width="80px" sort="auto"/>
+						<listheader label="Producto" align="left"   width="300px" sort="auto"/>
+						<listheader label="Cant." align="left" width="80px" sort="auto"/>
+						<listheader label="P. Unit." align="left"  width="80px"/>
+						<listheader label="Importe" align="left"  width="80px"/>
+					</listhead>
+					<template name="model" var="item">
+						<listitem onClick="@command('editDetalleVenta')">
+							<listcell label="@load(item.idDetalleVenta)"/>
+							<listcell label="@load(item.detProducto)"/>
+							<listcell label="@load(item.cantidad)" style="text-align:right;"/>
+							<listcell label="@load(item.precioUnitario)" style="text-align:right;"/>
+							<listcell label="@load(item.importe)" style="text-align:right;"/>
+						</listitem>
+					</template>
+				</listbox>
+			</vlayout>
+		</panelchildren>
+	</panel>
+	<panel width="99%" border="normal" title="DetalleVenta" visible="@load(vm.selectedDetalleVentaCopy ne null)">
+		<panelchildren>
+			<vlayout style="margin:10px;">
+				<groupbox validationMessages="@id('vmsgs')">
+					<vlayout id="detalleVentaForm" style="margin:5px;">
+						<hlayout sclass="z-valign-middle">
+							<label value="Id:"/>
+							<label value="@bind(vm.selectedDetalleVentaCopy.idDetalleVenta) @save(vm.selectedDetalleVentaCopy.idDetalleVenta, before='submit')"
+									style="width:200px;margin-right:20px;"/>
+							<label value="Producto:"/>
+							<textbox value="@bind(vm.selectedDetalleVentaCopy.detProducto) @save(vm.selectedDetalleVentaCopy.detProducto, before='submit')"
+									 constraint="no empty" style="width:300px;margin-right:20px;" readonly="true"/>
+							<button label="Buscar Producto" onClick="@command('buscarProducto',idProducto=vm.selectedDetalleVentaCopy.idProducto)" />
+							<label value="cantidad:"/>
+							<intbox value="@bind(vm.selectedDetalleVentaCopy.cantidad) @save(vm.selectedDetalleVentaCopy.cantidad, before='submit')"
+									 constraint="no empty,no negative,no zero" style="width:80px" onChange="@command('calcularImporte')"/>
+							<label value="precioUnitario:"/>
+							<decimalbox value="@bind(vm.selectedDetalleVentaCopy.precioUnitario) @save(vm.selectedDetalleVentaCopy.precioUnitario, before='submit')"
+									 constraint="no empty,no negative" style="width:80px" onChange="@command('calcularImporte')" readonly="true"/>
+						</hlayout>
+						<hlayout sclass="z-valign-middle">
+							<label value="importe:"/>
+							<decimalbox value="@bind(vm.selectedDetalleVentaCopy.importe) @save(vm.selectedDetalleVentaCopy.importe, before='submit')"
+									 constraint="no empty,no negative" style="width:80px;margin-right:20px;" readonly="true"/>
+						</hlayout>
+						<hlayout style="margin-top:5px;">
+							<button label="Guardar" onClick="@command('submit')" />
+							<button label="Eliminar" onClick="@command('delete')" style="margin-left:5px;" visible="@load(vm.selectedDetalleVentaCopy.idDetalleVenta ne null)"/>
+							<button label="Cancelar" onClick="@command('cancel')" />
+						</hlayout>
+					</vlayout>
+				</groupbox>
+			</vlayout>
+		</panelchildren>
+	</panel>
+</window>
+</zk>
