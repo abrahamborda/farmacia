@@ -11,7 +11,6 @@ import java.io.InputStream;
 import java.util.Arrays;
 
 import org.abc.domain.ReportType;
-import org.abc.utils.ReportConfig;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.util.media.AMedia;

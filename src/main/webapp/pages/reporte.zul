@@ -1,0 +1,34 @@
+<?page title="Compra Maintenance" ?>
+<?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver"?>
+<zk>
+	<style>.z-textbox{ text-transform:uppercase; }</style>
+	<window id="reportePage" border="none" width="100%" height=""
+		apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm') @init('org.abc.viewmodel.ReportVM')">
+		<panel width="99%" border="normal">
+			<!-- <caption label="Fechas" style="text-align: left;" /> -->
+			<panelchildren>
+				<hlayout id="fechasForm" style="margin:5px;">
+					<label value="Fechas:" />
+					<datebox id="dtFecInicio"
+						value="@bind(vm.fecInicio)" readonly="true"
+						style="width:200px;margin-right:20px;" />
+					<datebox id="dtFecFin" value="@bind(vm.fecFin)"
+						readonly="true" style="width:200px;margin-right:20px;" />
+					<combobox model="@load(vm.formatosReporte)"
+						selectedItem="@bind(vm.formatoReporte)"
+						width="200px" id="categoriaList" readonly="true">
+						<template name="model" var="itemCat">
+							<comboitem label="@load(itemCat.label)" value="@load(itemCat.value)"/>
+						</template>
+					</combobox>
+					<button label="Ver Reporte"
+						onClick="@command('verReporte')" style="font-size:12px;" />
+				</hlayout>
+				<iframe id="ifrmReporte" width="100%" height="500px"
+					src="" autohide="true">
+				</iframe>
+			</panelchildren>
+		</panel>
+	</window>
+</zk>

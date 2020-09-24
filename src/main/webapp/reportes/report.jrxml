@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="5bf48bd0-8e10-447d-9f5a-ac71c655cf15">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="fec_inicio" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="fec_fin" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select * from venta
+where fecha between $P{fec_inicio} and $P{fec_fin}]]>
+	</queryString>
+	<field name="id_venta" class="java.lang.Integer"/>
+	<field name="id_persona" class="java.lang.Integer"/>
+	<field name="id_usuario" class="java.lang.Integer"/>
+	<field name="subtotal" class="java.math.BigDecimal"/>
+	<field name="descuento" class="java.math.BigDecimal"/>
+	<field name="total" class="java.math.BigDecimal"/>
+	<field name="estado" class="java.lang.String"/>
+	<field name="fecha_reg" class="java.sql.Timestamp"/>
+	<field name="fecha_mod" class="java.sql.Timestamp"/>
+	<field name="fecha" class="java.sql.Date"/>
+	<field name="hora" class="java.sql.Time"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="61" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="69" height="20" uuid="6ece1d37-b7c6-401a-976b-c5cde9fdb9f7"/>
+				<text><![CDATA[subtotal]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="69" y="0" width="69" height="20" uuid="a57346b8-029e-4d85-b2a0-d8445af1f336"/>
+				<text><![CDATA[descuento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="138" y="0" width="69" height="20" uuid="30a9a652-c303-4ae3-ba87-1197c96eb347"/>
+				<text><![CDATA[total]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="207" y="0" width="69" height="20" uuid="7d9f940b-d568-4221-8f0c-fcab50e1fbe9"/>
+				<text><![CDATA[estado]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="276" y="0" width="69" height="20" uuid="e711863b-dafc-405c-995e-54c7bccae38d"/>
+				<text><![CDATA[fecha_reg]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="345" y="0" width="69" height="20" uuid="7e24b7b9-7b02-4a92-97fc-c1872b07757f"/>
+				<text><![CDATA[fecha_mod]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="414" y="0" width="69" height="20" uuid="8f0fa4f7-67a1-4336-9424-4d7d8cd4cd57"/>
+				<text><![CDATA[fecha]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="483" y="0" width="69" height="20" uuid="da2a1313-32b5-4551-849c-5d84b17ee6fa"/>
+				<text><![CDATA[hora]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="22" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="69" height="20" uuid="9b4b896b-260e-434b-8772-07f682af78fb"/>
+				<textFieldExpression><![CDATA[$F{subtotal}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="69" y="0" width="69" height="20" uuid="b7a761ec-f1b5-4f43-ae82-4c3774e4c206"/>
+				<textFieldExpression><![CDATA[$F{descuento}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="138" y="0" width="69" height="20" uuid="fc014f35-372d-4dff-ae91-d20e123e48be"/>
+				<textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="207" y="0" width="69" height="20" uuid="12914230-42bc-4256-898c-ec317d127707"/>
+				<textFieldExpression><![CDATA[$F{estado}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="276" y="0" width="69" height="20" uuid="b6448c08-f361-4044-a2c7-2bca45b8a228"/>
+				<textFieldExpression><![CDATA[$F{fecha_reg}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="345" y="0" width="69" height="20" uuid="d1ba0877-d062-46ce-beb3-cb5d6012d101"/>
+				<textFieldExpression><![CDATA[$F{fecha_mod}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="414" y="0" width="69" height="20" uuid="e50b947d-a3af-4141-8179-481608e47e9e"/>
+				<textFieldExpression><![CDATA[$F{fecha}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="483" y="0" width="69" height="20" uuid="02110e46-8a17-4b0f-baaf-9e4b66ae587e"/>
+				<textFieldExpression><![CDATA[$F{hora}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

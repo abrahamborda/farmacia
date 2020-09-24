@@ -57,11 +57,8 @@ public class PrincipalVM {
 		addPage("Productos", "/producto.zul");
 //		addPage("Buscar Productos", "/buscar_producto.zul");
 		addPage("Compras", "/compra.zul");
-<<<<<<< HEAD
 		addPage("Ventas", "/venta.zul");
-=======
-//		addPage("Detalle Compra", "/editar_compra.zul");
->>>>>>> branch 'master' of https://github.com/abrahamborda/farmacia.git
+		addPage("Reporte", "/reporte.zul");
 	}
 
 	private void addPage(String title, String includeUri) {
